@@ -41,8 +41,7 @@ export default function App(){
  const navTo=(n:string)=>{setPage(n);setSearch("");setMobileNav(false);};
  const title=role==="tenant"?"Grace Wanjiku":"Kevin Matoka";
  const addLabel=page==="Properties & Units"?"Add property":page==="Tenants"?"Add tenant":page==="Billing & Invoices"?"Create invoice":page==="Water Billing"?"Add meter reading":page==="Leases"?"Create lease":page==="Maintenance"?"Log request":"Add new";
- const exportCsv=(rows:Record<string,unknown>[],name:string)=>{if(!rows.length){notify("There is no data to export.");return;}const keys=Object.keys(rows[0]);const csv=[keys.join(","),...rows.map(r=>keys.map(k=>'"'+String(r[k]??"").replaceAll('"','""')+'"').join(","))].join("
-");const url=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));const a=document.createElement("a");a.href=url;a.download=name+".csv";a.click();URL.revokeObjectURL(url);notify("Report exported.");};
+ const exportCsv=(rows:Record<string,unknown>[],name:string)=>{if(!rows.length){notify("There is no data to export.");return;}const keys=Object.keys(rows[0]);const csv=[keys.join(","),...rows.map(r=>keys.map(k=>'"'+String(r[k]??"").replaceAll('"','""')+'"').join(","))].join("\n");const url=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));const a=document.createElement("a");a.href=url;a.download=name+".csv";a.click();URL.revokeObjectURL(url);notify("Report exported.");};
  const actionButton=(label:string,fn:()=>void)=><button className="primary" onClick={fn}><Plus size={15}/>{label}</button>;
  const searchBox=<div className="search"><Search size={16}/><input placeholder="Search this list..." value={search} onChange={e=>setSearch(e.target.value)}/></div>;
  const table=(headers:string[],rows:React.ReactNode[])=><div className="overflow"><table><thead><tr>{headers.map(h=><th key={h}>{h}</th>)}</tr></thead><tbody>{rows.length?rows:<tr><td colSpan={headers.length} className="no-data">No matching records found.</td></tr>}</tbody></table></div>;
