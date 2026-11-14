@@ -29,7 +29,6 @@
 - Unit list with tenant, property, rent, water, garbage and occupancy status.
 - Tenant registration form prototype and tenant bill/payment summary.
 - Supabase schema and role-aware Row Level Security foundation.
-- Separate role-based demo centre published at `/RentFlow/demo/`.
 
 ## Role-based demo centre
 - Agency workspace: `/RentFlow/demo/agent/`
