@@ -1,12 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
 
 const url = (import.meta.env.VITE_SUPABASE_URL as string | undefined)
-  || "https://prjwtxbmewskkpcfiklo.supabase.co";
+  || "https://glssdqflvfkmjcmtqxib.supabase.co";
 const key = (import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined)
-  || "sb_publishable_X6WlYdJxuS1nWwy8avgn2w_RpIppGQ4";
+  || "sb_publishable_SYaAb9QrstSxkTBFUl4FJA_0REhxzLj";
 
-// RentFlow uses its own Postgres schema inside the existing Nexora project.
-// The publishable key is intended for browser use; RLS remains the security boundary.
+// ESTORA production Supabase project. Only the publishable key belongs in the browser;
+// all privileged account operations remain in authenticated Edge Functions.
 export const supabase = createClient(url, key, {
   db: { schema: "rentflow" },
   auth: {
