@@ -1,1 +1,534 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RentFlow | Premium Midnight Dashboard</title>
+<style>
+:root{--navy:#06182b;--navy2:#0b2b46;--teal:#08c9bd;--gold:#f5bd36;--bg:#071b30;--white:#102d49;--ink:#f2f8ff;--muted:#a9bfd2;--line:#214968;--green:#19d58b;--red:#ff6478;--amber:#ffbf3f}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 Inter,system-ui,Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{display:flex;min-height:100vh}.side{width:248px;background:var(--navy);color:#dce6f0;padding:20px 14px;display:flex;flex-direction:column;flex-shrink:0}.brand{display:flex;align-items:center;gap:10px;padding:4px 8px 24px}.logo{height:38px;width:38px;border-radius:12px;background:linear-gradient(135deg,#18b7a7,#08746e);display:grid;place-items:center;color:white;font-weight:900;font-size:19px}.brand b{font-size:18px;color:white}.brand small{display:block;color:#9eb1c5;font-size:9px;letter-spacing:1.4px}.navlabel{font-size:9px;color:#8fa3b8;text-transform:uppercase;letter-spacing:1.5px;padding:13px 10px 7px}.nav{display:grid;gap:4px}.nav button{border:0;background:transparent;color:#bdcbd9;border-radius:8px;padding:10px 11px;text-align:left;font-size:12px;display:flex;gap:11px;align-items:center}.nav button.active,.nav button:hover{background:#29425f;color:#fff}.nav .ic{width:19px;font-size:15px;text-align:center}.sidefoot{margin-top:auto;padding:15px 9px 0;border-top:1px solid #30445e;color:#9db0c4;font-size:10px}.main{min-width:0;flex:1}.top{height:68px;background:white;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 26px;position:sticky;top:0;z-index:4}.topleft,.topright{display:flex;align-items:center;gap:12px}.crumb{font-size:11px;color:var(--muted)}.crumb b{color:var(--ink)}.role{border:1px solid var(--line);border-radius:8px;padding:8px 9px;background:white;color:var(--ink);font-size:11px}.avatar{height:32px;width:32px;border-radius:50%;display:grid;place-items:center;background:#dff3ef;color:#08766f;font-weight:800;font-size:11px}.hamb{display:none;border:0;background:none;font-size:22px}.content{max-width:1450px;margin:auto;padding:25px 27px 45px}.head{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;margin-bottom:19px}.eyebrow{color:var(--teal);font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}.head h1{font-size:24px;letter-spacing:-.6px;margin:5px 0 3px}.sub{font-size:11px;color:var(--muted)}.btn{border:0;background:var(--teal);color:white;padding:9px 13px;border-radius:8px;font-size:11px;font-weight:700}.btn:hover{filter:brightness(.94)}.btn.light{background:#eaf4f3;color:#21645f}.btn.dark{background:var(--navy2)}.btn.red{background:#fff0f0;color:#b73e3e}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.stat,.panel,.tile{background:white;border:1px solid var(--line);border-radius:12px;box-shadow:0 5px 20px #1b35500a}.stat{padding:15px}.stat label{font-size:10px;color:var(--muted)}.stat strong{display:block;font-size:23px;margin:7px 0 2px;letter-spacing:-.6px}.stat small{font-size:10px;color:var(--green)}.panel{padding:17px;margin-bottom:15px}.panelhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px}.panelhead h3{font-size:13px;margin:0}.panelhead small{color:var(--muted);font-size:10px}.grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;white-space:nowrap}th{text-align:left;padding:10px;font-size:9px;color:#8492a3;letter-spacing:.7px;text-transform:uppercase;border-bottom:1px solid var(--line)}td{padding:11px 10px;font-size:11px;border-bottom:1px solid #edf1f5}tbody tr:last-child td{border:0}.pill{display:inline-block;border-radius:20px;padding:4px 8px;font-size:9px;font-weight:750;background:#edf2f7;color:#536477}.pill.green{background:#e7f7ef;color:#16845d}.pill.amber{background:#fff4df;color:#a96d0a}.pill.red{background:#fdecec;color:#bd4242}.field{display:grid;gap:5px;margin:10px 0}.field label{font-size:10px;color:#58687a;font-weight:700}.field input,.field select,.field textarea{width:100%;padding:10px;border:1px solid #dce4eb;border-radius:8px;background:white;color:#26384b;font-size:11px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.notice{padding:11px 13px;border-radius:9px;background:#eff8f7;color:#32615c;font-size:11px;margin:10px 0}.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.tile{padding:14px;text-align:left;color:var(--ink)}.tile b{font-size:11px;display:block;margin-top:7px}.tile small{font-size:10px;color:var(--muted)}.tile span{font-size:18px;color:var(--teal)}.propertygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.property{background:white;border:1px solid var(--line);border-radius:12px;overflow:hidden}.cover{height:85px;background:linear-gradient(120deg,#d8ece9,#b5d4d0);padding:12px;display:flex;align-items:end;font-weight:800;font-size:12px;color:#234a48}.property:nth-child(2) .cover{background:linear-gradient(120deg,#e9e2d6,#d1c2a8)}.property:nth-child(3) .cover{background:linear-gradient(120deg,#dfe6f1,#b9c9dc)}.pbody{padding:12px}.pbody small{color:var(--muted);font-size:10px}.pbody .flex{display:flex;justify-content:space-between;margin-top:8px;font-size:10px}.progress{height:5px;background:#edf1f4;border-radius:9px;margin-top:8px;overflow:hidden}.progress i{display:block;height:100%;background:var(--teal)}.modalback{position:fixed;inset:0;background:#0c1b2dcc;display:none;align-items:center;justify-content:center;padding:15px;z-index:20}.modalback.show{display:flex}.modal{background:white;width:min(620px,100%);max-height:90vh;overflow:auto;border-radius:15px;padding:20px}.modalhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.modalhead h3{margin:0;font-size:16px}.x{border:0;background:#eef2f5;border-radius:7px;width:29px;height:29px}.formactions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}.logo-preview{width:66px;height:66px;border:1px dashed #bac8d5;border-radius:10px;display:grid;place-items:center;color:var(--muted);overflow:hidden;font-size:10px}.logo-preview img{width:100%;height:100%;object-fit:contain}.empty{text-align:center;color:var(--muted);padding:30px}.toast{display:none;position:fixed;right:20px;bottom:20px;background:#173a4b;color:white;padding:12px 16px;border-radius:9px;z-index:30;font-size:11px}.toast.show{display:block}.hidden{display:none!important}
+@media(max-width:950px){.stats{grid-template-columns:repeat(2,1fr)}.propertygrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:680px){.side{position:fixed;top:0;bottom:0;left:-260px;z-index:15;transition:.2s;width:245px}.side.open{left:0}.hamb{display:block}.top{padding:0 13px;height:60px}.content{padding:19px 13px}.head h1{font-size:21px}.grid2{grid-template-columns:1fr}.grid3,.propertygrid{grid-template-columns:1fr}.tiles{grid-template-columns:repeat(2,1fr)}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:20px}.role{max-width:130px}.hide-sm{display:none}.row{grid-template-columns:1fr}}
+
+
+/* RentFlow dashboard refinement */
+.dashboard-shell{display:grid;gap:15px}
+.dashboard-intro{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:-5px 0 4px}
+.dashboard-intro .sub{font-size:11px}
+.stats{align-items:stretch}
+.stat{min-width:0;position:relative;overflow:hidden}
+.stat label{display:block;text-transform:uppercase;letter-spacing:.7px;font-weight:700}
+.stat strong{overflow-wrap:anywhere;line-height:1.2}
+.stat small{display:block;line-height:1.35}
+.panel{min-width:0}
+.panelhead{flex-wrap:wrap}
+.tiles{grid-template-columns:repeat(4,minmax(0,1fr))}
+.tile{min-width:0;min-height:92px;transition:transform .16s ease,box-shadow .16s ease}
+.tile:hover{transform:translateY(-2px);box-shadow:0 8px 22px #1b355014}
+.tile b,.tile small{overflow-wrap:anywhere}
+.dashboard-kpi-note{font-size:10px;color:var(--muted);margin-top:4px}
+.dashboard-empty{padding:18px;text-align:center;color:var(--muted)}
+.tablewrap{max-width:100%}
+@media(max-width:1100px){.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.tiles{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:820px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.grid2{grid-template-columns:1fr}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.stat{padding:11px}.stat strong{font-size:18px}.stat label{font-size:9px}.stat small{font-size:9px}.panel{padding:13px}.tiles{gap:8px}.tile{padding:11px;min-height:86px}.head{flex-direction:column}.head>.btn{width:100%}}
+
+
+/* RentFlow premium midnight dashboard theme */
+body{background:radial-gradient(ellipse at 78% 0%,#124b68 0%,#09243d 35%,#06182b 78%);color:#eef7ff}
+.side{background:linear-gradient(180deg,#041426,#092943 70%,#061a2c);border-right:1px solid #174461}
+.logo{height:44px;width:44px;border-radius:50%;background:linear-gradient(145deg,#20e1d0,#078a94);box-shadow:0 0 24px #0bd7ca55;color:#05263a}
+.brand b{font-size:20px;letter-spacing:-.5px}.brand small{color:#9bc5d4}
+.navlabel{color:#5e9aaa}.nav button{color:#c1d6e5;border:1px solid transparent}
+.nav button.active,.nav button:hover{background:linear-gradient(90deg,#087e82aa,#0b4565);border-color:#12b9b0;color:#fff;box-shadow:inset 3px 0 #20d9ca}
+.sidefoot{border-color:#214968;color:#8caec3}
+.top{background:#071b2bf2;border-bottom:1px solid #1d4964;color:#eaf6ff;backdrop-filter:blur(16px)}
+.crumb,.crumb b{color:#c4d9e8}.role{background:#0c2a43;border-color:#46718b;color:#f4fbff}
+.avatar{background:linear-gradient(145deg,#20d9c7,#087c88);color:#032538;width:40px;height:40px;font-size:13px}
+.content{max-width:1600px;padding:26px 28px 48px}
+.eyebrow{color:#27dfd0;font-size:10px;letter-spacing:2px}
+.head h1{color:#f5faff;font-size:29px;letter-spacing:-.8px}
+.sub{color:#a9c0d2}
+.btn{background:linear-gradient(135deg,#0bc7b8,#078e9c);color:#032b3b;border:1px solid #28e0d0;box-shadow:0 5px 18px #00bfb52b}
+.btn.light{background:#e7f7fa;color:#07566a;border:1px solid #c3e8ed}
+.btn.dark{background:#123c5c;color:#eaf7ff;border:1px solid #2b6688}
+.btn.red{background:#442438;color:#ffb7c2;border:1px solid #8e4059}
+.stat,.panel,.tile,.property{background:linear-gradient(145deg,#123753f2,#0a2943f5);border:1px solid #246080;border-radius:17px;color:#f1f8ff;box-shadow:0 12px 28px #00101f55,inset 0 1px #ffffff0c}
+.stat{padding:17px;position:relative;overflow:hidden}
+.stat:before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:linear-gradient(#1ce2d2,#1685e7);opacity:.9}
+.stat label{color:#b7cddd;font-size:10px;letter-spacing:.9px}
+.stat strong{color:#fff;font-size:25px;letter-spacing:-.7px}
+.stat small{color:#7fe6c2}
+.panel{padding:19px}.panelhead h3{color:#f5fbff;font-size:15px}.panelhead small{color:#8fb0c6}
+.tile{background:linear-gradient(145deg,#153f5d,#0d2d49);border-color:#2c6786;color:#effaff}
+.tile span{color:#26e0d0;font-size:21px}.tile small{color:#a8c4d6}
+.tile:hover{box-shadow:0 12px 28px #00101f80;transform:translateY(-3px);border-color:#1ad7ca}
+.pill{background:#193e59;color:#c9e0ee}.pill.green{background:#0d493f;color:#7af0c1}.pill.amber{background:#55401d;color:#ffda86}.pill.red{background:#55283a;color:#ffb3c0}
+th{color:#8eafc4;border-color:#28516c}td{color:#d9eaf5;border-color:#1d4963}
+.field label{color:#c0d6e5}.field input,.field select,.field textarea{background:#09243b;color:#f2f8ff;border-color:#2b5b77}
+.notice{background:#103b4b;color:#c9f7ef;border:1px solid #1d6c78}
+.progress{background:#20445b}.progress i{background:linear-gradient(90deg,#08cbbd,#19e39b)}
+.cover{background:linear-gradient(120deg,#0d6c78,#163f60);color:#e9ffff}
+.property:nth-child(2) .cover{background:linear-gradient(120deg,#76552c,#b58a43);color:#fff8e8}
+.property:nth-child(3) .cover{background:linear-gradient(120deg,#274c79,#4778a9);color:#f1f8ff}
+.pbody small{color:#a9c0d2}
+.modalback{background:#020d1bdc}.modal{background:#0c2942;border:1px solid #2d6580;color:#f3faff}
+.modalhead h3{color:#fff}.x{background:#173e59;color:#fff}
+.toast{background:#087e80;color:#fff}.empty,.dashboard-empty{color:#a8c2d4}
+.tablewrap{border-radius:10px}.dashboard-intro .pill{background:#17475d;color:#a9f4e9}
+.grid2 .panel{min-height:100%}
+#content{animation:fadeIn .22s ease}
+@keyframes fadeIn{from{opacity:.7;transform:translateY(3px)}to{opacity:1;transform:none}}
+.stats .stat:nth-child(4n+1){background:linear-gradient(135deg,#104c5d,#0b2e49);border-color:#167d91}
+.stats .stat:nth-child(4n+2){background:linear-gradient(135deg,#3b285f,#142e50);border-color:#7254a8}
+.stats .stat:nth-child(4n+3){background:linear-gradient(135deg,#075443,#0b3049);border-color:#0a9a76}
+.stats .stat:nth-child(4n){background:linear-gradient(135deg,#123d71,#102c4b);border-color:#327bd0}
+@media(max-width:820px){.content{padding:20px 13px 35px}.head h1{font-size:23px}.top{background:#06192bf5}.stat{min-height:112px}}
+@media(max-width:480px){.content{padding:18px 12px 30px}.head h1{font-size:22px}.stat{padding:12px;min-height:104px;border-radius:14px}.stat strong{font-size:19px}.stat label{font-size:9px}.panel{padding:14px;border-radius:15px}.tile{border-radius:14px;min-height:91px}}
+
+
+.logo{border-radius:50%;color:#05263a;width:42px;height:42px;padding:7px;flex:0 0 42px}.logo svg{width:100%;height:100%}.brand small{font-size:8px;letter-spacing:1px}
+.notification-bell{position:relative;width:36px;height:36px;border-radius:11px;border:1px solid #2a607b;background:#10334e;color:#dffcff;font-size:19px;display:grid;place-items:center}
+.notification-bell span{position:absolute;right:-5px;top:-6px;min-width:17px;height:17px;padding:0 4px;border-radius:20px;background:#ff6478;color:white;font-size:9px;font-weight:800;display:grid;place-items:center}
+.greeting{display:inline-flex;align-items:center;gap:7px;color:#b6d9e6;background:#103b50;border:1px solid #21667a;border-radius:20px;padding:5px 10px;font-size:10px;font-weight:700;margin:0 0 8px}
+.notification-row{display:flex;gap:10px;align-items:flex-start;padding:11px 2px;border-bottom:1px solid #214968}.notification-row:last-child{border:0}
+.notification-icon{width:30px;height:30px;display:grid;place-items:center;border-radius:10px;background:#124d5a;color:#40e5d5;flex:0 0 30px}
+.notification-row b{display:block;font-size:11px}.notification-row small{color:#a9bfd2;font-size:10px}
+@media(max-width:680px){.notification-bell{width:32px;height:32px}.topright{gap:7px}.brand small{font-size:7px}}
+
+/* User-selectable light theme */
+.theme-toggle{height:36px;padding:0 11px;border-radius:10px;border:1px solid #2a607b;background:#10334e;color:#dffcff;font-size:10px;font-weight:750;white-space:nowrap}
+body[data-theme="light"]{background:#f2f6fa;color:#203044}
+body[data-theme="light"] .side{background:linear-gradient(180deg,#fff,#edf5f8);color:#203044;border-color:#d9e5ec}
+body[data-theme="light"] .brand b{color:#102b40}
+body[data-theme="light"] .brand small{color:#668093}
+body[data-theme="light"] .navlabel{color:#66899a}
+body[data-theme="light"] .nav button{color:#40596d}
+body[data-theme="light"] .nav button.active,body[data-theme="light"] .nav button:hover{background:#d9f4f1;border-color:#9cddd6;color:#075c60;box-shadow:inset 3px 0 #0aa99d}
+body[data-theme="light"] .sidefoot{color:#668093;border-color:#d7e4eb}
+body[data-theme="light"] .top{background:#ffffffed;color:#203044;border-color:#dce6ed}
+body[data-theme="light"] .crumb,body[data-theme="light"] .crumb b{color:#526a7d}
+body[data-theme="light"] .role{background:#fff;color:#203044;border-color:#d5e0e8}
+body[data-theme="light"] .avatar{background:#d8f3ef;color:#08766f}
+body[data-theme="light"] .theme-toggle{background:#e8f4f7;color:#174b61;border-color:#c5dce5}
+body[data-theme="light"] .notification-bell{background:#e8f4f7;color:#174b61;border-color:#c5dce5}
+body[data-theme="light"] .content{color:#203044}
+body[data-theme="light"] .head h1{color:#172b3d}
+body[data-theme="light"] .sub{color:#6d7f90}
+body[data-theme="light"] .eyebrow{color:#078d87}
+body[data-theme="light"] .greeting{background:#e2f7f4;color:#176b69;border-color:#bce9e2}
+body[data-theme="light"] .stat,body[data-theme="light"] .panel,body[data-theme="light"] .tile,body[data-theme="light"] .property{background:#fff;color:#203044;border:1px solid #dce6ed;box-shadow:0 8px 24px #173b5010}
+body[data-theme="light"] .stat label,body[data-theme="light"] .panelhead small,body[data-theme="light"] .tile small,body[data-theme="light"] .pbody small{color:#738496}
+body[data-theme="light"] .stat strong,body[data-theme="light"] .panelhead h3,body[data-theme="light"] .tile b{color:#1d3042}
+body[data-theme="light"] .stats .stat:nth-child(4n+1),body[data-theme="light"] .stats .stat:nth-child(4n+2),body[data-theme="light"] .stats .stat:nth-child(4n+3),body[data-theme="light"] .stats .stat:nth-child(4n){background:#fff;border-color:#dce6ed}
+body[data-theme="light"] .stat:before{opacity:1}
+body[data-theme="light"] .tile{background:linear-gradient(145deg,#fff,#f1f8fb)}
+body[data-theme="light"] .tile span{color:#079d97}
+body[data-theme="light"] th{color:#718397;border-color:#e2e9ef}
+body[data-theme="light"] td{color:#30465a;border-color:#e7edf2}
+body[data-theme="light"] .field label{color:#52687b}
+body[data-theme="light"] .field input,body[data-theme="light"] .field select,body[data-theme="light"] .field textarea{background:#fff;color:#24384a;border-color:#d7e1e9}
+body[data-theme="light"] .notice{background:#e9f7f5;color:#32615c;border-color:#ccebe5}
+body[data-theme="light"] .pill{background:#edf2f7;color:#536477}
+body[data-theme="light"] .pill.green{background:#e7f7ef;color:#16845d}
+body[data-theme="light"] .pill.amber{background:#fff4df;color:#a96d0a}
+body[data-theme="light"] .pill.red{background:#fdecec;color:#bd4242}
+body[data-theme="light"] .progress{background:#e8eef2}
+body[data-theme="light"] .modalback{background:#10233788}
+body[data-theme="light"] .modal{background:#fff;color:#203044;border-color:#dce6ed}
+body[data-theme="light"] .modalhead h3{color:#1d3042}
+body[data-theme="light"] .x{background:#edf2f5;color:#30465a}
+body[data-theme="light"] .notification-row{border-color:#e3ebf0}
+body[data-theme="light"] .notification-row b{color:#203044}
+body[data-theme="light"] .notification-row small{color:#738496}
+body[data-theme="light"] .notification-icon{background:#e1f6f3;color:#078d87}
+body[data-theme="light"] .dashboard-intro .pill{background:#e2f7f4;color:#176b69}
+body[data-theme="light"] .cover{color:#174b52}
+body[data-theme="light"] .toast{background:#087e80;color:#fff}
+body[data-theme="light"] .empty{color:#738496}
+@media(max-width:680px){.theme-toggle{height:32px;padding:0 8px;font-size:9px}}
+
+.profile-photo{width:68px;height:68px;border-radius:50%;display:grid;place-items:center;overflow:hidden;background:linear-gradient(145deg,#20d9c7,#087c88);color:#042b3d;font-size:22px;font-weight:850;border:2px solid #35d9ce;flex:0 0 68px}
+.profile-photo img{width:100%;height:100%;object-fit:cover}
+.profile-info{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #28516c;font-size:11px}
+.profile-info:last-child{border:0}.profile-info span{color:#a9bfd2}.profile-info b{text-align:right}
+.avatar{border:0;cursor:pointer}
+body[data-theme="light"] .profile-info{border-color:#e2e9ef}
+body[data-theme="light"] .profile-info span{color:#738496}
+@media(max-width:850px){.profile-layout{grid-template-columns:1fr}}
+
+.login-screen{min-height:100vh;display:grid;place-items:center;padding:22px;background:radial-gradient(circle at 15% 10%,#124b5c 0,transparent 34%),linear-gradient(135deg,#071522,#0c2435 60%,#071522);font-family:inherit;color:#edf7fb}
+.login-card{width:min(100%,410px);padding:34px;border:1px solid #28516c;border-radius:22px;background:#102638;box-shadow:0 25px 80px #0007}
+.login-mark{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,#28d9c7,#087f8c);display:grid;place-items:center;color:#062333;font-size:30px;font-weight:900}
+.login-brand{font-size:25px;font-weight:850;letter-spacing:-1px;margin-top:15px}.login-kicker{font-size:9px;letter-spacing:2px;color:#8ba9bd;margin-top:3px}
+.login-card h1{font-size:25px;margin:27px 0 5px}.login-card p{color:#9eb4c5;font-size:13px;margin:0 0 23px}
+.login-card label{display:block;font-size:11px;color:#bfd0dc;margin:14px 0 7px}
+.login-card input{width:100%;height:46px;border:1px solid #35566d;border-radius:10px;background:#0a1c2b;color:#f3f8fb;padding:0 13px;outline:none}
+.login-card input:focus{border-color:#22c9bd;box-shadow:0 0 0 3px #22c9bd22}
+.login-submit{width:100%;height:47px;border:0;border-radius:10px;margin-top:20px;background:linear-gradient(100deg,#22c9bd,#16a7a6);color:#06232e;font-weight:800;cursor:pointer}
+.demo-credentials{margin-top:18px;padding:12px;border-radius:10px;background:#0a1d2b;color:#a9c0ce;font-size:11px;line-height:1.7}
+.login-error{color:#ff9a9a;font-size:11px;margin-top:10px;min-height:14px}
+.role{font-size:10px;letter-spacing:1px;color:#70d8cf;font-weight:800}
+
+.profile-menu-wrap{position:relative;display:inline-flex;align-items:center}
+.profile-dropdown{position:absolute;right:0;top:calc(100% + 11px);width:190px;padding:7px;border:1px solid var(--line,#31536a);border-radius:13px;background:var(--panel,#102638);box-shadow:0 16px 38px #0005;z-index:100;display:none}
+.profile-dropdown.open{display:block}
+.profile-dropdown button{width:100%;display:flex;align-items:center;gap:10px;border:0;background:transparent;color:var(--text,#edf7fb);padding:11px 10px;border-radius:8px;text-align:left;font-size:12px;cursor:pointer}
+.profile-dropdown button:hover{background:var(--hover,#1b3c50)}
+.profile-dropdown .logout-item{color:#f08b8b}
+.profile-dropdown .menu-divider{height:1px;background:var(--line,#31536a);margin:5px 3px}
+</style>
+</head>
+<body>
+<section id="agentLogin" class="login-screen">
+<form class="login-card" onsubmit="return agentDemoLogin(event)">
+<div class="login-mark">⌂</div><div class="login-brand">RentFlow</div><div class="login-kicker">PROPERTY MANAGEMENT PLATFORM</div>
+<h1>Agent sign in</h1><p>Access the Agency Admin demo workspace.</p>
+<label for="demoEmail">Email address</label><input id="demoEmail" type="email" value="agent@rentflow.demo" autocomplete="username" required>
+<label for="demoPassword">Password</label><input id="demoPassword" type="password" placeholder="Enter demo password" autocomplete="current-password" required>
+<div id="loginError" class="login-error"></div><button class="login-submit" type="submit">Sign in to RentFlow</button>
+<div class="demo-credentials"><b>Demo credentials</b><br>agent@rentflow.demo<br>Agent@123</div>
+</form></section><div class="app" id="rentflowApp" style="display:none">
+<aside class="side" id="side"><div class="brand"><div class="logo" aria-label="RentFlow logo"><svg viewBox="0 0 48 48" role="img" aria-label="RentFlow mark"><path d="M8 39V19L24 7l16 12v20M16 39V23l8-6 8 6v16M24 39V27" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 20L24 4l20 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div><div><b>RentFlow</b><small>PROPERTY MANAGEMENT PLATFORM</small></div></div><div class="navlabel">Management workspace</div><nav class="nav" id="nav"></nav><div class="sidefoot">RentFlow Agent Demo · v3.0<br>Agency Admin workspace</div></aside>
+<main class="main">
+<header class="top"><div class="topleft"><button class="hamb" onclick="document.getElementById('side').classList.toggle('open')">☰</button><div class="crumb">Workspace / <b id="crumb">Overview</b></div></div><div class="topright"><button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Switch colour theme">☀ Light</button><button class="notification-bell" onclick="openNotifications()" aria-label="Open notifications">♧<span id="notificationCount">0</span></button><span class="role" id="roleLabel">AGENT WORKSPACE</span><span class="hide-sm" id="who" style="font-size:10px;color:var(--muted)">Platform Administrator</span><div class="profile-menu-wrap" id="profileMenuWrap">
+<button class="avatar" id="avatar" onclick="toggleProfileMenu(event)" title="Account menu" aria-haspopup="true" aria-expanded="false">PA</button>
+<div class="profile-dropdown" id="profileDropdown" role="menu">
+<button onclick="openMyProfile()"><span>♙</span> My Profile</button>
+<div class="menu-divider"></div>
+<button class="logout-item" onclick="agentDemoLogout()"><span>↪</span> Sign out</button>
+</div></div></div></header>
+<section class="content" id="content"></section>
+</main></div>
+<div class="modalback" id="modalback" onclick="if(event.target===this)closeModal()"><div class="modal"><div class="modalhead"><h3 id="modalTitle">Create record</h3><button class="x" onclick="closeModal()">✕</button></div><div id="modalBody"></div></div></div><div class="toast" id="toast"></div>
+<script>
+const navs={
+super:[['Overview','▦'],['Agencies & Agents','♙'],['Landlords','⌂'],['Properties & Plots','▤'],['Units & Houses','▦'],['Tenants & Access','♧'],['Charge Settings','◉'],['Payments','▧'],['Water Meter Billing','♨'],['Lease Management','▤'],['Maintenance','⚒'],['Financial Management','↗'],['Commission Management','％'],['Invoices & Receipts','▧'],['Branch Management','⌂'],['Support Centre','?'],['Communication Centre','✉'],['Reports','▥'],['Security & Audit','☷'],['Vacancy Listings','⌂'],['Tenant Applications','♧'],['Announcements','✉'],['Move-in / Move-out','⇄'],['Arrears & Reminders','◷'],['Deposit Management','▣'],['Staff & Permissions','♙'],['Vendors & Technicians','⚒'],['Document Centre','▤'],['Subscriptions','◇'],['Platform Settings','⚙'],['My Profile','◎']],
+agent:[['Overview','▦'],['Agency Profile','▣'],['My Plots','⌂'],['Units & Houses','▤'],['Tenants & Access','♧'],['Charge Settings','◉'],['Rent Collection','▧'],['Water Meter Billing','♨'],['Lease Management','▤'],['Maintenance','⚒'],['Financial Management','↗'],['Communication Centre','✉'],['Expenses','↗'],['Vacancy Listings','⌂'],['Tenant Applications','♧'],['Announcements','✉'],['Move-in / Move-out','⇄'],['Arrears & Reminders','◷'],['Deposit Management','▣'],['Staff & Permissions','♙'],['Vendors & Technicians','⚒'],['Document Centre','▤'],['Reports','▥'],['My Profile','◎']],
+landlord:[['Overview','▦'],['My Properties','⌂'],['Units & Houses','▤'],['Tenants & Access','♧'],['Charge Settings','◉'],['Rent Collection','▧'],['Water Meter Billing','♨'],['Lease Management','▤'],['Maintenance','⚒'],['Financial Management','↗'],['Commission Statements','％'],['Invoices & Receipts','▧'],['Branch Management','⌂'],['Expenses','↗'],['Vacancy Listings','⌂'],['Tenant Applications','♧'],['Announcements','✉'],['Move-in / Move-out','⇄'],['Arrears & Reminders','◷'],['Deposit Management','▣'],['Invoices & Receipts','▧'],['Document Centre','▤'],['Statements','▥'],['My Profile','◎']],
+tenant:[['My Home','⌂'],['My Charges','◉'],['Payment History','▧'],['Invoices & Receipts','▧'],['Collection Form','▤'],['Water Meter Billing','♨'],['Maintenance','⚒'],['Lease Management','▤'],['My Documents','▣'],['Move-in / Move-out','⇄'],['Notifications','✉'],['My Profile','◎']]
+};
+let userProfiles={
+ super:{name:'Platform Administrator',email:'admin@rentflow.co.ke',phone:'+254 700 000 001',job:'Super Administrator',company:'RentFlow',location:'Nairobi, Kenya',bio:'Platform operations and system administration.'},
+ agent:{name:'Peter Kamau',email:'peter@primeestate.co.ke',phone:'+254 711 000 111',job:'Agency Administrator',company:'Prime Estate Management',location:'Nairobi, Kenya',bio:'Property and tenancy management.'},
+ landlord:{name:'Samuel Otieno',email:'samuel.otieno@example.com',phone:'+254 722 000 222',job:'Property Owner',company:'Independent Landlord',location:'Nairobi, Kenya',bio:'Managing my rental property portfolio.'},
+ tenant:{name:'Mary Wanjiku',email:'mary.wanjiku@example.com',phone:'+254 733 000 333',job:'Tenant',company:'Tenant Account',location:'Nairobi, Kenya',bio:'RentFlow tenant portal user.'}
+};
+let profilePhotos={};
+let role='super',page='Overview',agencyLogo='',agency={name:'Prime Estate Management',email:'info@primeestate.co.ke',phone:'+254 700 123 456',address:'Westlands, Nairobi, Kenya',registration:'PVT-2026-0142',about:'Professional property management and rental collection services.'};
+let properties=[
+{id:1,name:'Sunrise Apartments',plot:'Plot 12A',location:'Westlands, Nairobi',landlord:'John Mwangi',manager:'Peter Kamau',units:24,occupied:21,rent:18500,water:500,garbage:300},
+{id:2,name:'Greenview Court',plot:'Plot 44B',location:'Kilimani, Nairobi',landlord:'Mary Wambui',manager:'Peter Kamau',units:32,occupied:28,rent:22000,water:650,garbage:350},
+{id:3,name:'Lakewood Residency',plot:'Plot 08',location:'Nakuru, Kenya',landlord:'Samuel Otieno',manager:'Independent',units:18,occupied:15,rent:12000,water:400,garbage:250}
+];
+let units=[
+{id:1,property:1,house:'A-04',floor:'Ground Floor',tenant:'Mary Wanjiku',rent:18500},
+{id:2,property:1,house:'A-05',floor:'Ground Floor',tenant:'Vacant',rent:18500},
+{id:3,property:2,house:'B-12',floor:'First Floor',tenant:'Brian Otieno',rent:22000},
+{id:4,property:3,house:'C-03',floor:'Second Floor',tenant:'Faith Njeri',rent:12000}
+];
+let tenants=[
+{id:'TEN-001',name:'Mary Wanjiku',email:'mary@example.com',phone:'+254 711 111 111',property:1,unit:1},
+{id:'TEN-002',name:'Brian Otieno',email:'brian@example.com',phone:'+254 722 222 222',property:2,unit:3},
+{id:'TEN-003',name:'Faith Njeri',email:'faith@example.com',phone:'+254 733 333 333',property:3,unit:4}
+];
+let agents=[{name:'Peter Kamau',email:'peter@primeestate.co.ke',phone:'+254 700 555 111',company:'Prime Estate Management',address:'Westlands, Nairobi',plots:[1,2]}];
+let landlords=[{name:'John Mwangi',email:'john@example.com',phone:'+254 711 000 111',address:'Nairobi',properties:[1]},{name:'Mary Wambui',email:'mary.owner@example.com',phone:'+254 722 000 222',address:'Nairobi',properties:[2]},{name:'Samuel Otieno',email:'samuel@example.com',phone:'+254 733 000 333',address:'Nakuru',properties:[3]}];
+let payments=[
+{ref:'RF-1108',tenant:'Mary Wanjiku',property:1,unit:1,rent:18500,water:500,garbage:300,date:'12 Nov 2026',status:'Paid'},
+{ref:'RF-1107',tenant:'Brian Otieno',property:2,unit:3,rent:22000,water:650,garbage:350,date:'11 Nov 2026',status:'Paid'},
+{ref:'RF-1104',tenant:'Faith Njeri',property:3,unit:4,rent:12000,water:400,garbage:250,date:'10 Nov 2026',status:'Pending'}
+];
+let charges={};properties.forEach(p=>charges[p.id]={rent:p.rent,water:p.water,garbage:p.garbage});
+let meterReadings=[{tenant:'Mary Wanjiku',property:1,house:'A-04',previous:118,current:124,rate:100,date:'12 Nov 2026'},{tenant:'Brian Otieno',property:2,house:'B-12',previous:204,current:211,rate:100,date:'11 Nov 2026'}];
+let leases=[{tenant:'Mary Wanjiku',house:'A-04',property:1,start:'01 Sep 2026',end:'31 Aug 2027',deposit:18500,status:'Active'},{tenant:'Brian Otieno',house:'B-12',property:2,start:'01 Jan 2026',end:'31 Dec 2026',deposit:22000,status:'Renewal due'}];
+let payoutRecords=[{landlord:'John Mwangi',property:'Sunrise Apartments',gross:388500,expenses:18500,commission:19425,net:350575,status:'Pending'}];
+let comms=[{channel:'SMS',audience:'Sunrise Apartments tenants',message:'Rent is due on the 5th of the month.',date:'12 Nov 2026',status:'Queued'},{channel:'Email',audience:'All agency tenants',message:'Welcome to your tenant portal.',date:'10 Nov 2026',status:'Sent'}];
+let platformSettings={payment:'flexible',commission:'both',water:'both'};
+let vacancies=[{property:1,house:'A-08',floor:'2nd Floor',rent:18500,available:'01 Dec 2026',status:'Published',contact:'Agency office'},{property:2,house:'B-03',floor:'Ground Floor',rent:22000,available:'15 Dec 2026',status:'Draft',contact:'Landlord'}];
+let arrears=[{tenant:'Brian Otieno',house:'B-12',property:2,period:'November 2026',due:22800,paid:10000,dueDate:'05 Nov 2026'},{tenant:'Mary Wanjiku',house:'A-04',property:1,period:'November 2026',due:19300,paid:0,dueDate:'05 Nov 2026'}];
+let deposits=[{tenant:'Mary Wanjiku',house:'A-04',property:1,amount:18500,held:18500,status:'Held'},{tenant:'Brian Otieno',house:'B-12',property:2,amount:22000,held:22000,status:'Held'}];
+let staff=[{name:'Peter Kamau',email:'peter@primeestate.co.ke',role:'Property Manager',scope:'Sunrise Apartments',status:'Active'}];
+let vendors=[{name:'Nakuru Plumbing Services',service:'Plumbing',phone:'+254 711 000 111',status:'Approved'},{name:'BrightFix Electrical',service:'General repairs',phone:'+254 722 000 222',status:'Approved'}];
+let inspections=[{tenant:'Mary Wanjiku',house:'A-04',property:1,type:'Move-in',date:'01 Sep 2026',condition:'Completed'},{tenant:'Brian Otieno',house:'B-12',property:2,type:'Move-out',date:'30 Nov 2026',condition:'Scheduled'}];
+let documents=[{name:'Lease Agreement - Mary Wanjiku',type:'Lease',owner:'Mary Wanjiku',date:'01 Sep 2026',status:'On file'},{name:'Property ownership document',type:'Property document',owner:'John Mwangi',date:'12 Aug 2026',status:'Verified'}];
+let subscription={plan:'Professional',status:'Trial',renewal:'30 Nov 2026',price:2500};
+let invoices=[
+{number:'INV-2026-11001',tenant:'Mary Wanjiku',property:1,house:'A-04',period:'November 2026',rent:18500,water:500,garbage:300,paid:0,status:'Unpaid',due:'05 Nov 2026',receipt:null},
+{number:'INV-2026-11002',tenant:'Brian Otieno',property:2,house:'B-12',period:'November 2026',rent:22000,water:500,garbage:300,paid:10000,status:'Partially paid',due:'05 Nov 2026',receipt:null}
+];
+let receipts=[];
+let branches=[{name:'Nairobi West Branch',location:'Nairobi',manager:'Peter Kamau',status:'Active'},{name:'Nakuru Branch',location:'Nakuru',manager:'Grace Njeri',status:'Active'}];
+let applications=[{applicant:'Jane Achieng',property:'Sunrise Apartments',house:'A-08',phone:'+254 712 111 222',status:'Under review'}];
+let supportTickets=[{ticket:'RF-SUP-001',from:'Mary Wanjiku',subject:'Payment not reflected',priority:'Normal',status:'Open'}];
+let announcements=[{title:'November rent reminder',audience:'All tenants',date:'13 Nov 2026',status:'Draft'}];
+let referralRecords=[];let lastReceipt=null;
+let notificationItems=[
+ {title:'Invoice awaiting payment',message:'Mary Wanjiku · INV-2026-11001 has an outstanding balance.',time:'Today',type:'invoice',read:false},
+ {title:'Partial payment received',message:'Brian Otieno paid KES 10,000 towards November rent.',time:'Today',type:'payment',read:false},
+ {title:'Maintenance request opened',message:'A tenant has reported a plumbing issue.',time:'Yesterday',type:'maintenance',read:false}
+];
+let commissionRules=[
+{agent:'Peter Kamau',landlord:'John Mwangi',property:1,method:'Percentage of rent collected',rate:5,fixed:0,effective:'01 Oct 2026',status:'Active'},
+{agent:'Prime Estate Management',landlord:'Grace Njeri',property:2,method:'Fixed monthly fee',rate:0,fixed:3500,effective:'01 Nov 2026',status:'Active'}
+];
+let commissionLedger=[
+{agent:'Peter Kamau',property:1,period:'November 2026',rentCollected:388500,rate:5,commission:19425,paid:0,status:'Accrued'},
+{agent:'Prime Estate Management',property:2,period:'November 2026',rentCollected:220000,rate:0,commission:3500,paid:0,status:'Accrued'}
+];
+const $=id=>document.getElementById(id),cash=n=>'KES '+Number(n||0).toLocaleString('en-KE');
+const prop=id=>properties.find(p=>p.id===Number(id))||properties[0],unit=id=>units.find(u=>u.id===Number(id));
+function toast(s){$('toast').textContent=s;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2600)}
+function badge(s){let c=['Paid','Active','Occupied','Assigned'].includes(s)?'green':['Overdue','Vacant','Rejected'].includes(s)?'red':'amber';return `<span class="pill ${c}">${s}</span>`}
+function stat(label,value,note){return `<div class="stat"><label>${label}</label><strong>${value}</strong><small>${note}</small></div>`}
+function table(h,rows){return `<div class="tablewrap"><table><thead><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${rows.length?rows.map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join('')}</tr>`).join(''):`<tr><td colspan="${h.length}" class="sub">No records found.</td></tr>`}</tbody></table></div>`}
+function greeting(){let h=new Date().getHours();return h<12?'Good morning':h<17?'Good afternoon':'Good evening'}
+function displayName(){return {super:'Platform Administrator',agent:'Peter Kamau',landlord:'Samuel Otieno',tenant:'Mary Wanjiku'}[role]}
+function head(title,desc,action=''){return `<div class="head"><div><div class="greeting">☀ ${greeting()}, ${displayName()}</div><div class="eyebrow">${({super:'Platform control',agent:'Agency management workspace',landlord:'Independent landlord workspace',tenant:'Tenant self-service portal'})[role]}</div><h1>${title}</h1><div class="sub">${desc}</div></div>${action}</div>`}
+function btn(text,action,light=false){return `<button class="btn ${light?'light':''}" onclick="${action}">${text}</button>`}
+function render(){ role='agent'; $('notificationCount').textContent=notificationItems.filter(n=>!n.read).length; $('crumb').textContent=page;$('who').textContent={super:'Platform Administrator',agent:agency.name+' · Agency Admin',landlord:'Samuel Otieno · Property Owner',tenant:'Mary Wanjiku · Tenant'}[role];$('avatar').textContent={super:'SA',agent:'PA',landlord:'SO',tenant:'MW'}[role];$('nav').innerHTML=navs[role].map(([n,i])=>`<button class="${page===n?'active':''}" onclick="go('${n}')"><span class="ic">${i}</span>${n}</button>`).join('');$('content').innerHTML=content()}
+function go(p){page=p;render();$('side').classList.remove('open');closeProfileMenu()}
+function toggleProfileMenu(e){
+ e.stopPropagation();
+ const menu=$('profileDropdown'),button=$('avatar');
+ const opening=!menu.classList.contains('open');
+ menu.classList.toggle('open',opening);
+ button.setAttribute('aria-expanded',String(opening));
+}
+function closeProfileMenu(){
+ const menu=$('profileDropdown'),button=$('avatar');
+ if(menu){menu.classList.remove('open');button.setAttribute('aria-expanded','false')}
+}
+function openMyProfile(){closeProfileMenu();go('My Profile')}
+function switchRole(r){role='agent';page=navs.agent[0][0];render()}
+function agentDemoLogout(){closeProfileMenu();$('rentflowApp').style.display='none';$('agentLogin').style.display='grid';$('demoPassword').value='';$('loginError').textContent=''}
+function agentDemoLogin(e){e.preventDefault();const email=$('demoEmail').value.trim().toLowerCase(),password=$('demoPassword').value;if(email!=='agent@rentflow.demo'||password!=='Agent@123'){$('loginError').textContent='Incorrect demo email or password. Please try again.';return false}role='agent';page=navs.agent[0][0];$('agentLogin').style.display='none';$('rentflowApp').style.display='flex';render();return false}
+function dash(){
+const money=v=>cash(v||0);
+const pct=(a,b)=>b?Math.round(a/b*100):0;
+const panel=(title,sub,body)=>`<div class="panel"><div class="panelhead"><h3>${title}</h3><small>${sub}</small></div>${body}</div>`;
+const todayLabel=new Date().toLocaleDateString('en-KE',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+const progress=(label,value,total,amount)=>`<div style="margin:13px 0"><div class="flex"><span>${label}</span><b>${amount||pct(value,total)+'%'}</b></div><div class="progress"><i style="width:${Math.min(100,pct(value,total))}%"></i></div></div>`;
+const actionTiles=items=>`<div class="tiles">${items.map(([n,ico,desc])=>`<button class="tile" onclick="go('${n}')"><span>${ico}</span><b>${n}</b><small>${desc||'Open workspace →'}</small></button>`).join('')}</div>`;
+if(role==='super'){
+let collected=payments.reduce((a,x)=>a+x.rent+x.water+x.garbage,0);
+let outstanding=invoices.reduce((a,x)=>a+invoiceBalance(x),0);
+let totalUnits=units.length,occupied=units.filter(x=>x.tenant!=='Vacant').length;
+let recent=[['Payment recorded','Mary Wanjiku · '+money(19300),'Today'],['Commission accrued','Peter Kamau · '+money(19425),'This month'],['New agency registered','Prime Estate Management','Today'],['Tenant access granted','Unit A-04 · Sunrise Apartments','Today']];
+return head('Super Admin Command Centre','Platform-wide performance, agency activity, financial oversight and system health.',btn('View audit centre',"go('Security & Audit')"))+`<div class="dashboard-intro"><span class="sub">Platform overview · ${todayLabel}</span><span class="pill success">Demo workspace</span></div>`+
+`<div class="stats">${stat('Agencies & agents',agents.length+ ' / 84','Registered agency profiles / sample agents')}${stat('Landlords',landlords.length+126,'Registered property owners')}${stat('Rental units',totalUnits,'Across demo portfolios')}${stat('Tenants',tenants.length+1096,'Tenant accounts')}${stat('Recorded collections',money(collected),'Demo payment ledger')}${stat('Outstanding invoices',money(outstanding),'Unpaid and partial balances')}${stat('Agent commissions',money(commissionLedger.reduce((a,x)=>a+x.commission,0)),'Accrued in demo ledger')}${stat('Occupancy',pct(occupied,totalUnits)+'%','Across listed demo units')}</div>`+
+panel('Platform operations','Quick access to the most important controls',actionTiles([['Agencies & Agents','♙','Manage agencies'],['Landlords','⌂','Owner accounts'],['Properties & Plots','▤','Portfolio oversight'],['Invoices & Receipts','▧','Billing records'],['Commission Management','％','Agent earnings'],['Subscriptions','◇','Plans and renewals'],['Security & Audit','☷','Access and activity'],['Reports','▥','Platform analytics']]))+
+`<div class="grid2">${panel('Portfolio performance','Sample properties',properties.map(p=>progress(p.name,p.occupied,p.units,p.occupied+'/'+p.units+' occupied')).join(''))}${panel('Financial snapshot','Demo transaction records',`<div class="notice">Collections recorded <b style="float:right">${money(collected)}</b></div><div class="notice">Outstanding invoices <b style="float:right">${money(outstanding)}</b></div><div class="notice">Commission payable <b style="float:right">${money(commissionLedger.reduce((a,x)=>a+x.commission-x.paid,0))}</b></div><div class="notice">Receipts issued <b style="float:right">${receipts.length}</b></div>`)}</div>`+
+panel('Latest platform activity','Illustrative activity feed',table(['Activity','Details','When'],recent));
+}
+if(role==='agent'){
+let myName='Peter Kamau';
+let myCommissions=commissionLedger.filter(x=>x.agent===myName||x.agent===agency.name);
+let earned=myCommissions.reduce((a,x)=>a+x.commission,0),paid=myCommissions.reduce((a,x)=>a+x.paid,0);
+let myPayments=payments.filter(x=>x.tenant);
+let rentCollected=myPayments.reduce((a,x)=>a+x.rent,0);
+let myProperties=properties.filter(p=>p.manager===myName||p.manager===agency.name||p.manager==='Peter Kamau');
+let occupied=units.filter(u=>u.tenant!=='Vacant').length;
+return head('Agency Admin Dashboard','Your managed portfolio, collections, tenant services and personal agent commission.',btn('Record collection',"openForm('payment')"))+`<div class="dashboard-intro"><span class="sub">Agency performance · ${todayLabel}</span><span class="pill success">Agency workspace</span></div>`+
+`<div class="stats">${stat('Assigned properties',myProperties.length||2,'Your portfolio')}${stat('Units managed',units.length,'Across assigned plots')}${stat('Active tenants',tenants.length,'Tenant accounts')}${stat('Rent collected',money(rentCollected||684500),'Demo period')}${stat('Commission earned',money(earned),'Your commission ledger')}${stat('Commission paid',money(paid),'Recorded payouts')}${stat('Commission balance',money(earned-paid),'Awaiting settlement')}${stat('Occupancy',pct(occupied,units.length)+'%','Portfolio occupancy')}</div>`+
+panel('Agent workspace','Your daily operational shortcuts',actionTiles([['My Plots','⌂','Managed properties'],['Tenants & Access','♧','Tenant accounts'],['Rent Collection','▧','Record payments'],['Invoices & Receipts','▤','Invoices and receipts'],['Commission Statements','％','Your earnings'],['Maintenance','⚒','Open requests'],['Arrears & Reminders','◷','Overdue balances'],['Reports','▥','Collection performance']]))+
+`<div class="grid2">${panel('My commission summary','Commission earned from assigned property collections',`<div class="notice">Commission accrued <b style="float:right">${money(earned)}</b></div><div class="notice">Already paid <b style="float:right">${money(paid)}</b></div><div class="notice">Outstanding to you <b style="float:right">${money(earned-paid)}</b></div>${btn('View commission statement',"go('Commission Statements')")}`)}${panel('Collection performance','Payment activity',`<div class="notice">Rent collected <b style="float:right">${money(rentCollected||684500)}</b></div><div class="notice">Payment records <b style="float:right">${payments.length}</b></div><div class="notice">Open maintenance requests <b style="float:right">2</b></div><div class="notice">Invoices awaiting payment <b style="float:right">${invoices.filter(x=>invoiceBalance(x)>0).length}</b></div>`)}</div>`+
+panel('Recent tenant payments','Latest collection records',table(['Reference','Tenant','Property','Rent','Total','Date','Status'],payments.slice(0,5).map(x=>[x.ref,x.tenant,prop(x.property).name,money(x.rent),money(x.rent+x.water+x.garbage),x.date,badge(x.status)])));
+}
+if(role==='landlord'){
+let ownerProps=properties.filter(p=>p.landlord==='John Mwangi'||p.manager==='Independent');
+let ownerIds=ownerProps.map(p=>p.id);
+let ownerInvoices=invoices.filter(x=>ownerIds.includes(x.property));
+let ownerPayments=payments.filter(x=>ownerIds.includes(x.property));
+let gross=ownerPayments.reduce((a,x)=>a+x.rent,0);
+let arrears=ownerInvoices.reduce((a,x)=>a+invoiceBalance(x),0);
+let ownerExpenses=payoutRecords.reduce((a,x)=>a+x.expenses,0);
+let ownerCommission=commissionLedger.reduce((a,x)=>a+x.commission,0);
+return head('Landlord Property Dashboard','A clear view of your properties, rental income, agent commissions and tenant obligations.',btn('Add property',"openForm('property')"))+`<div class="dashboard-intro"><span class="sub">Portfolio summary · ${todayLabel}</span><span class="pill success">Landlord workspace</span></div>`+
+`<div class="stats">${stat('My properties',ownerProps.length||1,'Owned / managed portfolio')}${stat('Rental units',units.length,'Across your properties')}${stat('Occupied units',units.filter(x=>x.tenant!=='Vacant').length,'Current occupancy')}${stat('Rent collected',money(gross||180000),'Recorded demo collections')}${stat('Outstanding rent',money(arrears),'Invoice balances')}${stat('Agent commissions',money(ownerCommission),'Accrued in sample ledger')}${stat('Property expenses',money(ownerExpenses),'Recorded costs')}${stat('Net rental estimate',money(Math.max(0,gross-ownerExpenses-ownerCommission)),'Before other costs')}</div>`+
+panel('Landlord workspace','Manage your investment',actionTiles([['My Properties','⌂','Properties and plots'],['Tenants & Access','♧','Occupants and access'],['Invoices & Receipts','▧','Billing evidence'],['Statements','▥','Income statements'],['Commission Statements','％','Agent commission'],['Deposit Management','▣','Tenant deposits'],['Maintenance','⚒','Repairs and approvals'],['Document Centre','▤','Property documents']]))+
+`<div class="grid2">${panel('Property occupancy','Units occupied versus vacant',ownerProps.map(p=>progress(p.name,p.occupied,p.units,p.occupied+'/'+p.units+' occupied')).join('')||'<div class="empty">No properties assigned yet.</div>')}${panel('Financial overview','Illustrative account balances',`<div class="notice">Rent received <b style="float:right">${money(gross||180000)}</b></div><div class="notice">Outstanding invoices <b style="float:right">${money(arrears)}</b></div><div class="notice">Agent commission accrued <b style="float:right">${money(ownerCommission)}</b></div><div class="notice">Expenses recorded <b style="float:right">${money(ownerExpenses)}</b></div>`)}</div>`+
+panel('Recent payments from your properties','Rental collection activity',table(['Reference','Tenant','Property','Rent','Date','Status'],ownerPayments.slice(0,5).map(x=>[x.ref,x.tenant,prop(x.property).name,money(x.rent),x.date,badge(x.status)])));
+}
+let tenant=tenants[0],tenantInvoice=invoices.find(x=>x.tenant===tenant.name)||invoices[0],tenantReceipts=receipts.filter(x=>x.tenant===tenant.name),tenantPayments=payments.filter(x=>x.tenant===tenant.name),tProp=prop(tenant.property),tUnit=unit(tenant.unit);
+return head('My Tenant Dashboard','Your home, monthly charges, invoices, payments and service requests in one place.',btn('View my invoice',"go('Invoices & Receipts')"))+`<div class="dashboard-intro"><span class="sub">Your rental account · ${todayLabel}</span><span class="pill success">Tenant portal</span></div>`+
+`<div class="stats">${stat('My house',tUnit?.house||'A-04',tProp.name)}${stat('Monthly rent',money(charges[tenant.property].rent),'House rent')}${stat('Water',money(charges[tenant.property].water),'Monthly charge')}${stat('Garbage',money(charges[tenant.property].garbage),'Monthly charge')}${stat('Current balance',money(tenantInvoice?invoiceBalance(tenantInvoice):0),'Outstanding invoice balance')}${stat('Payments made',tenantPayments.length,'Recorded transactions')}${stat('Receipts available',tenantReceipts.length,'Payment confirmations')}${stat('Lease status','Active','Sample tenancy')}</div>`+
+panel('My rental account','Your current invoice and payment status',tenantInvoice?`<div class="notice"><b>${tenantInvoice.number}</b><span style="float:right">${badge(tenantInvoice.status)}</span><p>${tenantInvoice.period} · Due ${tenantInvoice.due}</p><div class="flex"><span>Total charges</span><b>${money(invoiceTotal(tenantInvoice))}</b></div><div class="flex"><span>Paid so far</span><b>${money(tenantInvoice.paid)}</b></div><div class="flex"><span>Balance due</span><b style="color:var(--red)">${money(invoiceBalance(tenantInvoice))}</b></div></div>${btn('View invoice and receipts',"go('Invoices & Receipts')")} ${btn('Submit payment',"openForm('payment')")}`:billCard(tenant.property))+
+panel('Tenant services','Common actions',actionTiles([['My Charges','◉','View monthly charges'],['Invoices & Receipts','▧','Download invoice or receipt'],['Payment History','▧','Previous payments'],['Maintenance','⚒','Report a repair'],['Lease Management','▤','View tenancy details'],['My Documents','▣','Access documents']]))+
+`<div class="grid2">${panel('Recent payments','Your payment history',table(['Reference','Amount','Date','Status'],tenantPayments.slice(0,5).map(x=>[x.ref,money(x.rent+x.water+x.garbage),x.date,badge(x.status)]))||'<div class="empty">No payments yet.</div>')}${panel('Important reminders','Account notifications',`<div class="notice">Rent is due on the 5th of each month.</div><div class="notice">Keep your payment reference for reconciliation.</div><div class="notice">Submit maintenance issues through your tenant portal.</div>`)}</div>`;
+}
+function billCard(pid){let p=prop(pid),c=charges[pid];return `<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #edf1f5"><span>House rent</span><b>${cash(c.rent)}</b></div><div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #edf1f5"><span>Water</span><b>${cash(c.water)}</b></div><div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #edf1f5"><span>Garbage collection</span><b>${cash(c.garbage)}</b></div><div style="display:flex;justify-content:space-between;padding:13px 0;font-size:14px"><b>Total monthly charges</b><b style="color:var(--teal)">${cash(c.rent+c.water+c.garbage)}</b></div><div class="notice">Electricity is deliberately excluded. Your property manager sets these rates.</div>${btn('Open collection form',"go('Collection Form')")}`}
+function profilePage(){
+ const p=userProfiles[role];
+ return head('My Profile','Manage your personal information, contact details and account preferences.')+
+ `<div class="grid2 profile-layout">
+ <div class="panel">
+  <div class="panelhead"><h3>Personal information</h3><small>Visible within your workspace</small></div>
+  <div style="display:flex;align-items:center;gap:14px;margin:8px 0 18px">
+   <div class="profile-photo" id="profilePhotoPreview">${profilePhotos[role]?`<img src="${profilePhotos[role]}" alt="Profile photo">`:p.name.split(' ').map(x=>x[0]).slice(0,2).join('').toUpperCase()}</div>
+   <div><b>${p.name}</b><div class="sub">${p.job}</div><label class="btn light" for="profilePhoto" style="display:inline-block;margin-top:8px;cursor:pointer">Upload photo</label><input id="profilePhoto" type="file" accept="image/*" hidden onchange="previewProfilePhoto(this)"></div>
+  </div>
+  <div class="row"><div class="field"><label>Full name</label><input id="profile_name" value="${p.name}"></div><div class="field"><label>Phone number</label><input id="profile_phone" value="${p.phone}"></div></div>
+  <div class="field"><label>Email address</label><input id="profile_email" type="email" value="${p.email}"></div>
+  <div class="row"><div class="field"><label>Job title / account type</label><input id="profile_job" value="${p.job}"></div><div class="field"><label>Company / account</label><input id="profile_company" value="${p.company}"></div></div>
+  <div class="field"><label>Location</label><input id="profile_location" value="${p.location}"></div>
+  <div class="field"><label>About</label><textarea id="profile_bio" rows="3">${p.bio}</textarea></div>
+  <div class="formactions"><button class="btn" onclick="saveProfile()">Save profile</button></div>
+ </div>
+ <div>
+  <div class="panel"><div class="panelhead"><h3>Account information</h3><small>Current session</small></div>
+   <div class="profile-info"><span>Workspace role</span><b>${p.job}</b></div>
+   <div class="profile-info"><span>Account email</span><b>${p.email}</b></div>
+   <div class="profile-info"><span>Account status</span><b><span class="pill green">Active demo account</span></b></div>
+   <div class="profile-info"><span>Workspace</span><b>${p.company}</b></div>
+  </div>
+  <div class="panel"><div class="panelhead"><h3>Security & preferences</h3></div>
+   <div class="notice">Keep your email and phone number up to date so important rental and payment notifications can reach you.</div>
+   <div class="field"><label>New password</label><input id="profile_password" type="password" minlength="8" placeholder="Enter a new password"></div>
+   <div class="field"><label>Confirm new password</label><input id="profile_password_confirm" type="password" minlength="8" placeholder="Confirm new password"></div>
+   <button class="btn light" onclick="changeDemoPassword()">Update password</button>
+   <div class="sub" style="margin-top:10px">Password changes are a visual demo only; production authentication must be handled securely by Supabase Auth.</div>
+  </div>
+ </div></div>`;
+}
+function content(){
+if(page==='Overview'||page==='My Home')return dash();
+if(page==='My Profile')return profilePage();
+if(page==='Agencies & Agents')return head('Agency and agent management','Create agency workspaces, register full agent profiles, add company branding and manage access.',btn('＋ Add agency / agent',"openForm('agent')"))+`<div class="stats">${stat('Agency accounts','38','Across the platform')}${stat('Active agents','84','Verified profiles')}${stat('Pending approval','6','Awaiting review')}${stat('Agency plots','412','Assigned portfolios')}</div><div class="panel"><div class="panelhead"><h3>Registered agency profiles</h3>${btn('＋ Create agency',"openForm('agent')")}</div>${table(['Agency / Agent','Contact details','Business address','Assigned plots','Status','Action'],agents.map((a,i)=>[`<b>${a.company}</b><br>${a.name}`,`${a.email}<br>${a.phone}`,a.address,a.plots.length,badge('Active'),btn('Manage',`editAgent(${i})`,true)]))}</div><div class="notice">Each agency receives its own branded Agency Admin workspace. The agent can manage only assigned plots, their tenants, charges and collections.</div>`;
+if(page==='Landlords')return head('Landlord accounts','Register landlords who work with an agency or independently manage their own properties.',btn('＋ Add landlord',"openForm('landlord')"))+`<div class="panel">${table(['Landlord','Email / phone','Address','Properties','Management type'],landlords.map(l=>[l.name,`${l.email}<br>${l.phone}`,l.address,l.properties.length,l.properties.some(id=>prop(id).manager==='Independent')?badge('Independent'):badge('Agent managed')]))}</div>`;
+if(['Properties & Plots','My Plots','My Properties'].includes(page))return head('Properties and plots','Create property records, define plots and set the ownership and management relationship.',btn('＋ Add property',"openForm('property')"))+`<div class="propertygrid">${properties.map(p=>`<div class="property"><div class="cover">${p.name}<span style="margin-left:auto">${p.plot}</span></div><div class="pbody"><b>${p.location}</b><div class="flex"><span>Landlord: ${p.landlord}</span><span>Agent: ${p.manager}</span></div><div class="flex"><span>${p.occupied}/${p.units} occupied</span><b>${cash(p.rent)} rent</b></div><div class="progress"><i style="width:${p.occupied/p.units*100}%"></i></div><div class="flex"><span>Water ${cash(p.water)}</span><span>Garbage ${cash(p.garbage)}</span></div><div style="margin-top:12px">${btn('Edit charges',`chargeFor(${p.id})`,true)} ${btn('View units',`go('Units & Houses')`,true)}</div></div></div>`).join('')}</div>`;
+if(page==='Units & Houses')return head('Units, floors and house numbers','Every rental unit belongs to a specific plot and is linked to its current tenant.',btn('＋ Add house / unit',"openForm('unit')"))+`<div class="panel">${table(['Property / Plot','Floor','House number','Tenant linked','Monthly rent','Occupancy'],units.map(u=>[prop(u.property).name, u.floor,`<b>${u.house}</b>`,u.tenant,cash(u.rent),badge(u.tenant==='Vacant'?'Vacant':'Occupied')]))}</div><div class="notice">The house record includes a property, plot, floor and unique house number. A tenant is linked through their tenancy allocation.</div>`;
+if(page==='Tenants & Access')return head('Tenant accounts and house allocation','Register tenant details, link the tenant to a house and issue portal access.',btn('＋ Add tenant / grant access',"openForm('tenant')"))+`<div class="panel">${table(['Tenant','Email / phone','Property','Floor / house','Portal access','Action'],tenants.map(t=>{let u=unit(t.unit);return [`<b>${t.name}</b><br>${t.id}`,`${t.email}<br>${t.phone}`,prop(t.property).name,u?u.floor+' · '+u.house:'Not allocated',badge('Enabled'),btn('Manage',`editTenant('${t.id}')`,true)]}))}</div><div class="notice">Agent admins and independent landlords can grant access only to tenants of their own managed properties. Super Admin can manage all tenant access.</div>`;
+if(page==='Charge Settings')return head('Plot-specific charge settings','Configure monthly rent, water and garbage collection rates separately for each plot.',btn('＋ Set plot rates',"openForm('charges')"))+`<div class="panel">${table(['Property / Plot','Rent (KES)','Water (KES)','Garbage (KES)','Monthly total','Configured by'],properties.map(p=>[p.name+' · '+p.plot,cash(charges[p.id].rent),cash(charges[p.id].water),cash(charges[p.id].garbage),`<b>${cash(charges[p.id].rent+charges[p.id].water+charges[p.id].garbage)}</b>`,p.manager==='Independent'?'Landlord':p.manager]))}</div><div class="notice">No electricity charge is included. Rates are applied to the tenant's linked unit according to its plot. Super Admin can edit any plot's rates.</div><div class="grid3">${properties.map(p=>`<div class="panel"><b>${p.name}</b><p class="sub">${p.plot}</p>${btn('Configure rates',`chargeFor(${p.id})`)}</div>`).join('')}</div>`;
+if(['Payments','Rent Collection','Rent & Payments','Payment History','Rent Statements','Statements','Collection Form','My Charges'].includes(page))return paymentPage();
+if(page==='Audit Logs')return head('Platform audit logs','Review account changes, access grants, charge updates and payment records.')+`<div class="panel">${table(['User','Activity','Record','Date / time','Result'],[['Super Admin','Created agency profile','Prime Estate Management','13 Nov 2026 10:32',badge('Success')],['Peter Kamau','Updated water rate','Sunrise Apartments','13 Nov 2026 11:05',badge('Success')],['Peter Kamau','Granted tenant portal access','Mary Wanjiku · A-04','13 Nov 2026 11:20',badge('Success')]])}</div>`;
+if(page==='Agency Profile')return head('Agency profile and branding','Update your company identity, contact details, address and logo.')+agencyForm();
+if(page==='Water Meter Billing')return head('Water meter billing','Capture meter readings and calculate water consumption per tenant and unit.',btn('＋ Add meter reading',"openForm('meter')"))+`<div class="notice">Choose fixed water rates, meter-based billing, or both per plot. Electricity is not included in this billing module.</div><div class="panel">${table(['Tenant','Property / house','Previous reading','Current reading','Units used','Rate / unit','Water bill','Reading date'],meterReadings.map(m=>{let used=Math.max(0,m.current-m.previous);return [m.tenant,prop(m.property).name+' · '+m.house,m.previous,m.current,used,cash(m.rate),cash(used*m.rate),m.date]}))}</div>`;
+if(page==='Lease Management')return head('Lease and tenancy management','Track tenancy agreements, deposits, commencement dates, expiries and renewals.',btn('＋ Add lease',"openForm('lease')"))+`<div class="panel">${table(['Tenant','Property / house','Start date','Expiry date','Deposit held','Status','Action'],leases.map((l,i)=>[l.tenant,prop(l.property).name+' · '+l.house,l.start,l.end,cash(l.deposit),badge(l.status),btn('Review',"toast('Lease record opened in demo.')",true)]))}</div><div class="notice">Configure reminders before lease expiry, record deposit refunds and retain signed agreement documents.</div>`;
+if(page==='Commission Management'||page==='Commission Statements')return head('Commission management','Set agent commission agreements, calculate earned commission and track payments.',btn('＋ Add commission rule',"openForm('commissionRule')"))+`<div class="stats">${stat('Commission accrued',cash(commissionLedger.reduce((a,x)=>a+x.commission,0)),'Current sample period')}${stat('Commission paid',cash(commissionLedger.reduce((a,x)=>a+x.paid,0)),'Recorded payouts')}${stat('Outstanding',cash(commissionLedger.reduce((a,x)=>a+x.commission-x.paid,0)),'Awaiting settlement')}${stat('Active agreements',commissionRules.filter(x=>x.status==='Active').length,'Commission rules')}</div><div class="panel"><div class="panelhead"><h3>Commission agreements</h3><small>Per agent, landlord and property</small></div>${table(['Agent / agency','Landlord','Property','Commission basis','Rate / fee','Effective from','Status'],commissionRules.map(x=>[x.agent,x.landlord,prop(x.property).name,x.method,x.method.startsWith('Percentage')?x.rate+'%':cash(x.fixed),x.effective,badge(x.status)]))}</div><div class="panel"><div class="panelhead"><h3>Commission ledger</h3><small>Calculated against rent collected only</small></div>${table(['Agent','Property','Period','Rent collected','Commission earned','Paid','Balance','Status','Action'],commissionLedger.map((x,i)=>[x.agent,prop(x.property).name,x.period,cash(x.rentCollected),cash(x.commission),cash(x.paid),cash(x.commission-x.paid),badge(x.status),btn('Record payout',`payCommission(${i})`,true)]))}</div><div class="notice">Rules can be percentage-based, fixed monthly fees, or a combination. Commission is calculated from rent collections only by default; water and garbage are excluded unless a written agreement explicitly says otherwise. Every change and payout must be audited.</div>`;
+if(page==='Financial Management')return head('Financial management','Reconcile collections, expenses, agent commissions and landlord payouts.',btn('＋ Record expense',"openForm('expense')"))+`<div class="stats">${stat('Gross collections','KES 388,500','Illustrative month')}${stat('Property expenses','KES 18,500','Recorded costs')}${stat('Agent commission','KES 19,425','Based on agreement')}${stat('Landlord net payout','KES 350,575','Before payout confirmation')}</div><div class="panel">${table(['Landlord','Property','Gross collections','Expenses','Commission','Net payout','Payout status'],payoutRecords.map(x=>[x.landlord,x.property,cash(x.gross),cash(x.expenses),cash(x.commission),'<b>'+cash(x.net)+'</b>',badge(x.status)]))}</div><div class="notice">Payout figures are sample calculations. Real disbursements require verified payment integration and approval controls.</div>`;
+if(page==='Communication Centre'||page==='Notifications')return head('Communication centre','Prepare tenant notices, rent reminders and property announcements.',btn('＋ Compose message',"openForm('message')"))+`<div class="panel">${table(['Channel','Audience','Message','Date','Delivery status'],comms.map(x=>[x.channel,x.audience,x.message,x.date,badge(x.status)]))}</div><div class="notice">Production delivery can connect to an SMS provider, email service or approved WhatsApp Business integration.</div>`;
+if(page==='Security & Audit'||page==='Audit Logs')return head('Security and audit centre','Review user access, role changes, overrides and financial activity.')+`<div class="stats">${stat('Active accounts','1,344','Across platform')}${stat('Access grants','28','This month')}${stat('Blocked attempts','7','Sample security events')}${stat('Admin overrides','3','Require review')}</div><div class="panel">${table(['User','Event','Resource','Timestamp','Outcome'],[['Super Admin','Updated plot charges','Sunrise Apartments','13 Nov 2026 11:05',badge('Success')],['Peter Kamau','Granted tenant access','Mary Wanjiku · A-04','13 Nov 2026 11:20',badge('Success')],['Unknown account','Failed login','Agency Admin portal','13 Nov 2026 11:25',badge('Rejected')]])}</div>`;
+if(page==='Invoices & Receipts')return head('Invoices and payment receipts','Generate monthly tenant invoices, allocate payments and issue receipts after successful payment.',btn('＋ Generate monthly invoices',"generateMonthlyInvoices()"))+`<div class="stats">${stat('Invoices',invoices.length,'Current sample ledger')}${stat('Outstanding balance',cash(invoices.reduce((a,x)=>a+invoiceBalance(x),0)),'All invoices')}${stat('Receipts issued',receipts.length,'After recorded payments')}${stat('Collected against invoices',cash(invoices.reduce((a,x)=>a+x.paid,0)),'Allocated payments')}</div><div class="panel"><div class="panelhead"><h3>Tenant invoices</h3><small>Rent, water and garbage only</small></div>${table(['Invoice','Tenant','Property / house','Billing period','Total','Paid','Balance','Status','Action'],invoices.map((x,i)=>[x.number,x.tenant,prop(x.property).name+' · '+x.house,x.period,cash(invoiceTotal(x)),cash(x.paid),cash(invoiceBalance(x)),badge(x.status),btn('View',`viewInvoice(${i})`,true)+' '+btn('Print',`printInvoice(${i})`,true)+' '+btn('Email',`emailInvoice(${i})`,true)]))}</div><div class="panel"><div class="panelhead"><h3>Payment receipts</h3><small>Automatically created when payment is recorded</small></div>${table(['Receipt number','Payment reference','Tenant','Amount','Payment date','Action'],receipts.map((x,i)=>[x.number,x.paymentRef,x.tenant,cash(x.amount),x.date,btn('View',`viewReceipt(${i})`,true)+' '+btn('Print',`printReceipt(${i})`,true)]))}</div><div class="notice"><b>Important:</b> an invoice is generated when rent becomes due. After a successful full or partial payment, RentFlow issues a separate payment receipt showing the amount received and remaining balance.</div>`;
+if(page==='Branch Management')return head('Branch management','Manage agency branches, branch managers and branch-level property access.',btn('＋ Add branch',"openForm('branch')"))+`<div class="panel">${table(['Branch','Location','Branch manager','Status'],branches.map(x=>[x.name,x.location,x.manager,badge(x.status)]))}</div>`;
+if(page==='Support Centre')return head('Support and help desk','Track agency and tenant support requests.',btn('＋ Create support ticket',"openForm('support')"))+`<div class="panel">${table(['Ticket','Raised by','Subject','Priority','Status'],supportTickets.map(x=>[x.ticket,x.from,x.subject,x.priority,badge(x.status)]))}</div>`;
+if(page==='Tenant Applications')return head('Tenant applications','Review prospective tenant applications before allocating vacant units.',btn('＋ Add application',"openForm('application')"))+`<div class="panel">${table(['Applicant','Property','Preferred unit','Phone','Status'],applications.map(x=>[x.applicant,x.property,x.house,x.phone,badge(x.status)]))}</div>`;
+if(page==='Announcements')return head('Platform announcements','Publish notices to agencies, landlords, agents or tenants.',btn('＋ New announcement',"openForm('announcement')"))+`<div class="panel">${table(['Announcement','Audience','Date','Status'],announcements.map(x=>[x.title,x.audience,x.date,badge(x.status)]))}</div>`;
+if(page==='Vacancy Listings')return head('Vacancy advertising','Publish vacant units and manage enquiries from prospective tenants.',btn('＋ Add vacancy',"openForm('vacancy')"))+`<div class="panel">${table(['Property','House / floor','Monthly rent','Available from','Listing status','Action'],vacancies.map((v,i)=>[prop(v.property).name,v.house+' · '+v.floor,cash(v.rent),v.available,badge(v.status),btn('Toggle listing',`toggleVacancy(${i})`,true)]))}</div>`;
+if(page==='Move-in / Move-out')return head('Tenant move-in and move-out','Record inspections, handover condition, keys, meter readings and final balances.',btn('＋ Schedule inspection',"openForm('inspection')"))+`<div class="panel">${table(['Tenant','Property / house','Inspection','Date','Condition / status'],inspections.map(x=>[x.tenant,prop(x.property).name+' · '+x.house,x.type,x.date,badge(x.condition)]))}</div><div class="notice">Production workflow should capture timestamped photos, signed checklists, key handover and final utility readings.</div>`;
+if(page==='Arrears & Reminders')return head('Arrears and payment reminders','Monitor outstanding balances and follow up overdue accounts.',btn('Send reminders',"sendReminders()"))+`<div class="panel">${table(['Tenant','House','Billing period','Amount due','Paid','Balance','Due date'],arrears.map(a=>[a.tenant,a.house,a.period,cash(a.due),cash(a.paid),'<b>'+cash(Math.max(0,a.due-a.paid))+'</b>',a.dueDate]))}</div>`;
+if(page==='Deposit Management')return head('Security deposit register','Track deposits held, deductions, refunds and tenant exit reconciliation.',btn('＋ Record deposit',"openForm('deposit')"))+`<div class="panel">${table(['Tenant','Property / house','Deposit received','Balance held','Status'],deposits.map(d=>[d.tenant,prop(d.property).name+' · '+d.house,cash(d.amount),cash(d.held),badge(d.status)]))}</div><div class="notice">Deposits are tracked separately from rental income. Refunds and deductions should require supporting evidence and an audit trail.</div>`;
+if(page==='Staff & Permissions')return head('Staff and access management','Invite agency staff and assign property-specific permissions.',btn('＋ Add staff member',"openForm('staff')"))+`<div class="panel">${table(['Staff member','Email','Role','Assigned scope','Status'],staff.map(x=>[x.name,x.email,x.role,x.scope,badge(x.status)]))}</div><div class="notice">Staff permissions must be enforced by database policies, not only hidden menu items.</div>`;
+if(page==='Vendors & Technicians')return head('Vendors and technicians','Maintain approved service providers for repairs and property maintenance.',btn('＋ Add vendor',"openForm('vendor')"))+`<div class="panel">${table(['Vendor','Service category','Phone','Approval status'],vendors.map(x=>[x.name,x.service,x.phone,badge(x.status)]))}</div>`;
+if(page==='Document Centre'||page==='My Documents')return head('Document centre','Organise leases, landlord documents, tenant records and inspection evidence.',btn('＋ Add document',"openForm('document')"))+`<div class="panel">${table(['Document','Type','Linked person','Date','Status'],documents.map(x=>[x.name,x.type,x.owner,x.date,badge(x.status)]))}</div><div class="notice">This demo lists sample documents only. Production files require private storage, access checks and expiring signed links.</div>`;
+if(page==='Subscriptions')return head('Subscription management','Manage SaaS plans, billing status and renewal dates.',btn('Change plan',"toast('Plan selection will be connected to subscription billing.')"))+`<div class="stats">${stat('Current plan',subscription.plan,'Agency subscription')}${stat('Monthly price',cash(subscription.price),'Illustrative KES price')}${stat('Status',subscription.status,'Demo account')}${stat('Renewal date',subscription.renewal,'Next billing date')}</div><div class="panel"><h3>Available plans</h3><div class="grid3"><div class="panel"><b>Starter</b><h2>KES 999/mo</h2><p class="sub">Small landlords and portfolios</p></div><div class="panel"><b>Professional</b><h2>KES 2,500/mo</h2><p class="sub">Growing agencies and landlords</p></div><div class="panel"><b>Business</b><h2>Custom</h2><p class="sub">Larger property portfolios</p></div></div></div>`;
+if(page==='Reports')return head('Reports and analytics','Review occupancy, rent collections, arrears, utility charges and property performance.',btn('Export report',"toast('Demo report export requested.')"))+`<div class="grid3"><div class="panel"><b>Occupancy report</b><p class="sub">Occupied versus vacant units by plot.</p></div><div class="panel"><b>Collection report</b><p class="sub">Rent, water and garbage collected by period.</p></div><div class="panel"><b>Arrears report</b><p class="sub">Outstanding tenant balances and ageing.</p></div><div class="panel"><b>Landlord statement</b><p class="sub">Gross income, costs, commission and net income.</p></div><div class="panel"><b>Agent performance</b><p class="sub">Collection rate and managed portfolio.</p></div><div class="panel"><b>Utility consumption</b><p class="sub">Meter readings and water billing by unit.</p></div></div>`;
+if(page==='Maintenance')return head('Maintenance requests','Track tenant issues and maintenance actions.',btn('＋ New request',"openForm('maintenance')"))+`<div class="panel">${table(['Request','Tenant','House','Issue','Status'],[['MT-001','Mary Wanjiku','A-04','Leaking kitchen tap',badge('Pending')],['MT-002','Brian Otieno','B-12','Faulty corridor light',badge('Active')]])}</div>`;
+if(page==='Platform Settings')return head('Platform settings','Configure payment routing, agent commission rules and billing methods.')+`<div class="panel"><div class="field"><label>Payment model</label><select id="setting_payment"><option value="flexible">Flexible — landlord selects payment destination</option><option value="central">Centralized collection through platform</option><option value="direct">Direct payment to landlord / agent</option></select></div><div class="field"><label>Agent commission model</label><select id="setting_commission"><option value="both">Percentage or fixed fee per agreement</option><option value="percentage">Percentage of rent collected</option><option value="fixed">Fixed monthly management fee</option></select></div><div class="field"><label>Water billing model</label><select id="setting_water"><option value="both">Fixed rate or meter-based, configurable per plot</option><option value="fixed">Fixed monthly charge</option><option value="meter">Meter-based consumption</option></select></div><div class="notice">Utility charge configuration remains plot-specific. Electricity is excluded.</div>${btn('Save platform settings',"saveSettings()")}</div>`;
+if(page==='Reports'||page==='Expenses'||page==='Statements'||page==='Documents'||page==='My Documents'||page==='Subscriptions')return head(page,'Review and manage your '+page.toLowerCase()+'.')+`<div class="panel"><div class="empty"><h3>${page}</h3><p>This workspace is represented in the prototype. Production reporting, document storage and notification delivery will be connected in the backend.</p>${btn('＋ Add record',"openForm('generic')")}</div></div>`;
+return dash();
+}
+function paymentPage(){let tenantMode=role==='tenant';let p=prop(tenants[0].property),c=charges[p.id];return head(page,'Tenant charges are split into rent, water and garbage collection.',tenantMode?btn('＋ Submit payment',"openForm('payment')"):btn('＋ Record collection',"openForm('payment')"))+(tenantMode?`<div class="panel"><div class="panelhead"><h3>My monthly collection form</h3><small>House A-04 · Sunrise Apartments</small></div>${billCard(p.id)}</div>`:`<div class="stats">${stat('Rent collected','KES 684,500','This month')}${stat('Water collected','KES 28,400','This month')}${stat('Garbage collected','KES 16,800','This month')}${stat('Outstanding','KES 96,000','All charge categories')}</div>`)+`<div class="panel"><div class="panelhead"><h3>Collection records</h3><small>Sample transactions</small></div>${table(['Reference','Tenant','House','Rent','Water','Garbage','Total','Date','Status'],payments.map(x=>{let p=prop(x.property),u=unit(x.unit);return [x.ref,x.tenant,u?u.house:'—',cash(x.rent),cash(x.water),cash(x.garbage),`<b>${cash(x.rent+x.water+x.garbage)}</b>`,x.date,badge(x.status)]}))}</div>`}
+function agencyForm(){return `<div class="panel"><div class="row"><div><div class="field"><label>Agency / company name</label><input id="ag_name" value="${agency.name}"></div><div class="field"><label>Business email</label><input id="ag_email" value="${agency.email}"></div><div class="field"><label>Phone number</label><input id="ag_phone" value="${agency.phone}"></div><div class="field"><label>Physical / postal address</label><input id="ag_address" value="${agency.address}"></div><div class="field"><label>Business registration / licence number</label><input id="ag_reg" value="${agency.registration}"></div></div><div><label class="sub">Agency logo</label><div class="logo-preview" id="logoPreview">${agencyLogo?`<img src="${agencyLogo}">`:'Logo preview'}</div><div class="field"><label>Upload company logo</label><input type="file" accept="image/*" onchange="previewLogo(this)"></div><div class="field"><label>Company information</label><textarea id="ag_about" rows="5">${agency.about}</textarea></div></div></div><div style="text-align:right">${btn('Save agency profile',"saveAgency()")}</div></div>`}
+function previewLogo(input){let f=input.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{agencyLogo=r.result;$('logoPreview').innerHTML=`<img src="${agencyLogo}">`};r.readAsDataURL(f)}
+function saveAgency(){agency={name:$('ag_name').value,email:$('ag_email').value,phone:$('ag_phone').value,address:$('ag_address').value,registration:$('ag_reg').value,about:$('ag_about').value};toast('Agency profile and branding saved in this demo.');render()}
+function chargeFor(id){let p=prop(id),c=charges[id];$('modalTitle').textContent='Configure plot charges · '+p.name;$('modalBody').innerHTML=`<div class="notice">These charges will apply to tenants assigned to units within ${p.plot}.</div><div class="field"><label>Monthly rent (KES)</label><input id="ch_rent" type="number" min="0" value="${c.rent}"></div><div class="field"><label>Monthly water charge (KES)</label><input id="ch_water" type="number" min="0" value="${c.water}"></div><div class="field"><label>Monthly garbage collection (KES)</label><input id="ch_garbage" type="number" min="0" value="${c.garbage}"></div><div class="notice">Electricity is not part of this billing configuration.</div><div class="formactions"><button class="btn light" onclick="closeModal()">Cancel</button><button class="btn" onclick="saveCharges(${id})">Save plot rates</button></div>`;$('modalback').classList.add('show')}
+function saveCharges(id){charges[id]={rent:+$('ch_rent').value,water:+$('ch_water').value,garbage:+$('ch_garbage').value};let p=prop(id);p.rent=charges[id].rent;p.water=charges[id].water;p.garbage=charges[id].garbage;closeModal();render();toast('Plot-specific charges updated.')}
+function openForm(type){let title,fields;if(type==='agent'){title='Register agency and agent administrator';fields=[['Agency / company name','company'],['Agent full name','name'],['Email address','email'],['Phone number','phone'],['Business address','address'],['Registration / licence number','registration'],['Company information','about'],['Initial assigned plot (optional)','plot']]}else if(type==='landlord'){title='Register landlord account';fields=[['Landlord full name','name'],['Email address','email'],['Phone number','phone'],['Physical / postal address','address'],['Management model','model']]}else if(type==='property'){title='Register property / plot';fields=[['Property name','name'],['Plot / estate reference','plot'],['Location / address','location'],['Landlord name','landlord'],['Managing agent (or Independent)','manager'],['Number of units','units']]}else if(type==='unit'){title='Register rental house / unit';fields=[['Property / plot','property'],['Floor','floor'],['House number','house'],['Monthly rent (KES)','rent']]}else if(type==='tenant'){title='Register tenant and grant portal access';fields=[['Tenant full name','name'],['Email address (login)','email'],['Phone number','phone'],['Property / plot','property'],['Floor','floor'],['House number / unit','house'],['Tenancy start date','start']]}else if(type==='charges'){title='Set plot-specific charges';fields=[['Select property / plot','property'],['Monthly rent (KES)','rent'],['Monthly water (KES)','water'],['Monthly garbage (KES)','garbage']]}else if(type==='payment'){title='Record tenant collection';fields=[['Tenant','tenant'],['Property / plot','property'],['House number','house'],['Rent paid (KES)','rent'],['Water paid (KES)','water'],['Garbage paid (KES)','garbage'],['Payment method / reference','method']]}else if(type==='maintenance'){title='Create maintenance request';fields=[['Tenant name','tenant'],['House number','house'],['Issue description','issue']]}else if(type==='meter'){title='Record water meter reading';fields=[['Tenant name','tenant'],['Property / plot','property'],['House number','house'],['Previous reading (m³)','previous'],['Current reading (m³)','current'],['Rate per m³ (KES)','rate']]}else if(type==='lease'){title='Create tenancy lease record';fields=[['Tenant name','tenant'],['Property / plot','property'],['House number','house'],['Lease start date','start'],['Lease expiry date','end'],['Security deposit (KES)','deposit']]}else if(type==='expense'){title='Record property expense';fields=[['Property / plot','property'],['Expense description','description'],['Amount (KES)','amount']]}else if(type==='message'){title='Compose tenant communication';fields=[['Channel (SMS / Email)','channel'],['Audience / plot','audience'],['Message','message']]}else if(type==='vacancy'){title='Create vacancy listing';fields=[['Property ID','property'],['House number','house'],['Floor','floor'],['Monthly rent (KES)','rent'],['Available from','available']]}else if(type==='inspection'){title='Schedule tenant inspection';fields=[['Tenant name','tenant'],['Property ID','property'],['House number','house'],['Inspection type (Move-in / Move-out)','inspectionType'],['Inspection date','date']]}else if(type==='deposit'){title='Record security deposit';fields=[['Tenant name','tenant'],['Property ID','property'],['House number','house'],['Deposit amount (KES)','amount']]}else if(type==='staff'){title='Add agency staff';fields=[['Full name','name'],['Email address','email'],['Role','staffRole'],['Assigned plot / property','scope']]}else if(type==='vendor'){title='Add service provider';fields=[['Vendor / company name','name'],['Service category','service'],['Phone number','phone']]}else if(type==='document'){title='Register document';fields=[['Document name','name'],['Document type','docType'],['Linked person / property','owner']]}else if(type==='commissionRule'){title='Create commission agreement';fields=[['Agent / agency name','agent'],['Landlord name','landlord'],['Property ID','property'],['Method (percentage / fixed / both)','method'],['Percentage of rent collected (%)','rate'],['Fixed monthly fee (KES)','fixed'],['Effective date','effective']]}else if(type==='branch'){title='Add agency branch';fields=[['Branch name','name'],['Location','location'],['Branch manager','manager']]}else if(type==='support'){title='Create support ticket';fields=[['Raised by','from'],['Subject','subject'],['Priority','priority']]}else if(type==='application'){title='Register tenant application';fields=[['Applicant name','applicant'],['Property','propertyName'],['Preferred house','house'],['Phone number','phone']]}else if(type==='announcement'){title='Create announcement';fields=[['Announcement title','title'],['Audience','audience']]}else{title='Create record';fields=[['Name','name'],['Details','details']]}
+$('modalTitle').textContent=title;
+$('modalBody').innerHTML=fields.map(([label,key])=>{let options=key==='property'?`<select id="f_${key}">${properties.map(p=>`<option value="${p.id}">${p.name} · ${p.plot}</option>`).join('')}</select>`:key==='model'?`<select id="f_${key}"><option>Independent landlord dashboard</option><option>Managed by agency</option></select>`:`<input id="f_${key}" ${['units','rent','water','garbage'].includes(key)?'type="number" min="0"':'type="text"'} placeholder="Enter ${label.toLowerCase()}">`;return `<div class="field"><label>${label}</label>${options}</div>`}).join('')+`<div class="formactions"><button class="btn light" onclick="closeModal()">Cancel</button><button class="btn" onclick="saveForm('${type}')">Save and continue</button></div>`;
+$('modalback').classList.add('show')}
+function val(k){return $('f_'+k)?.value?.trim()||''}
+function saveForm(type){
+if(type==='agent'){let a={name:val('name'),email:val('email'),phone:val('phone'),company:val('company'),address:val('address'),registration:val('registration'),about:val('about'),plots:[]};if(!a.name||!a.email||!a.company){toast('Enter agent name, email and company.');return}agents.push(a);agency={...agency,name:a.company,email:a.email,phone:a.phone,address:a.address,registration:a.registration,about:a.about};}
+if(type==='landlord'){let l={name:val('name'),email:val('email'),phone:val('phone'),address:val('address'),properties:[]};landlords.push(l)}
+if(type==='property'){let p={id:Date.now(),name:val('name'),plot:val('plot'),location:val('location'),landlord:val('landlord'),manager:val('manager')||'Independent',units:+val('units'),occupied:0,rent:0,water:0,garbage:0};properties.push(p);charges[p.id]={rent:0,water:0,garbage:0}}
+if(type==='unit'){let pid=+val('property'),u={id:Date.now(),property:pid,floor:val('floor'),house:val('house'),tenant:'Vacant',rent:+val('rent')||charges[pid].rent};units.push(u);prop(pid).units++}
+if(type==='tenant'){let pid=+val('property'),house=val('house'),u=units.find(x=>x.property===pid&&x.house===house);if(!u){u={id:Date.now(),property:pid,floor:val('floor'),house,tenant:val('name'),rent:charges[pid].rent};units.push(u);prop(pid).units++}else u.tenant=val('name');let t={id:'TEN-'+String(tenants.length+1).padStart(3,'0'),name:val('name'),email:val('email'),phone:val('phone'),property:pid,unit:u.id};tenants.push(t);prop(pid).occupied++}
+if(type==='charges'){let id=+val('property');charges[id]={rent:+val('rent'),water:+val('water'),garbage:+val('garbage')};let p=prop(id);Object.assign(p,charges[id])}
+if(type==='payment'){let pid=+val('property'),u=units.find(x=>x.property===pid&&x.house===val('house')),r=+val('rent'),w=+val('water'),g=+val('garbage'),total=r+w+g,ref='RF-'+Date.now().toString().slice(-6),date=new Date().toLocaleDateString('en-GB');let pay={ref,tenant:val('tenant'),property:pid,unit:u?.id,rent:r,water:w,garbage:g,date,status:'Paid',method:val('method')};payments.unshift(pay);let inv=invoices.find(x=>x.property===pid&&x.house===val('house')&&x.tenant===val('tenant')&&invoiceBalance(x)>0);if(!inv){let c=charges[pid],period=new Date().toLocaleString('en-GB',{month:'long',year:'numeric'});inv={number:'INV-'+Date.now().toString().slice(-7),tenant:val('tenant'),property:pid,house:val('house'),period,rent:c.rent,water:c.water,garbage:c.garbage,paid:0,status:'Unpaid',due:'05 '+period,receipt:null};invoices.unshift(inv)}if(inv){inv.paid=Math.min(invoiceTotal(inv),inv.paid+total);inv.status=inv.paid>=invoiceTotal(inv)?'Paid':'Partially paid';let rec={number:'RCT-'+Date.now().toString().slice(-6),paymentRef:ref,invoice:inv.number,tenant:val('tenant'),property:pid,house:val('house'),amount:total,date,method:val('method'),balance:invoiceBalance(inv)};inv.receipt=rec.number;receipts.unshift(rec);lastReceipt=rec}else{let rec={number:'RCT-'+Date.now().toString().slice(-6),paymentRef:ref,invoice:'Unallocated payment',tenant:val('tenant'),property:pid,house:val('house'),amount:total,date,method:val('method'),balance:0};receipts.unshift(rec);lastReceipt=rec}}
+if(type==='meter'){let pid=+val('property');meterReadings.unshift({tenant:val('tenant'),property:pid,house:val('house'),previous:+val('previous'),current:+val('current'),rate:+val('rate'),date:new Date().toLocaleDateString('en-GB')})}
+if(type==='lease'){let pid=+val('property');leases.push({tenant:val('tenant'),property:pid,house:val('house'),start:val('start'),end:val('end'),deposit:+val('deposit'),status:'Active'})}
+if(type==='message'){comms.unshift({channel:val('channel'),audience:val('audience'),message:val('message'),date:new Date().toLocaleDateString('en-GB'),status:'Queued'})}
+if(type==='expense'){let amt=+val('amount');payoutRecords[0].expenses+=amt;payoutRecords[0].net-=amt;}
+if(type==='vacancy'){vacancies.unshift({property:+val('property'),house:val('house'),floor:val('floor'),rent:+val('rent'),available:val('available'),status:'Draft',contact:'Agency office'})}
+if(type==='inspection'){inspections.unshift({tenant:val('tenant'),property:+val('property'),house:val('house'),type:val('inspectionType'),date:val('date'),condition:'Scheduled'})}
+if(type==='deposit'){let pid=+val('property'),amt=+val('amount');deposits.unshift({tenant:val('tenant'),property:pid,house:val('house'),amount:amt,held:amt,status:'Held'})}
+if(type==='staff'){staff.unshift({name:val('name'),email:val('email'),role:val('staffRole'),scope:val('scope'),status:'Invited'})}
+if(type==='vendor'){vendors.unshift({name:val('name'),service:val('service'),phone:val('phone'),status:'Pending review'})}
+if(type==='document'){documents.unshift({name:val('name'),type:val('docType'),owner:val('owner'),date:new Date().toLocaleDateString('en-GB'),status:'Metadata only'})}
+if(type==='branch'){branches.unshift({name:val('name'),location:val('location'),manager:val('manager'),status:'Active'})}
+if(type==='support'){supportTickets.unshift({ticket:'RF-SUP-'+Date.now().toString().slice(-4),from:val('from'),subject:val('subject'),priority:val('priority')||'Normal',status:'Open'})}
+if(type==='application'){applications.unshift({applicant:val('applicant'),property:val('propertyName'),house:val('house'),phone:val('phone'),status:'New'})}
+if(type==='announcement'){announcements.unshift({title:val('title'),audience:val('audience'),date:new Date().toLocaleDateString('en-GB'),status:'Draft'})}
+if(type==='commissionRule'){let method=val('method').toLowerCase();let rate=+val('rate'),fixed=+val('fixed');commissionRules.unshift({agent:val('agent'),landlord:val('landlord'),property:+val('property'),method:method==='fixed'?'Fixed monthly fee':method==='both'?'Percentage plus fixed fee':'Percentage of rent collected',rate,fixed,effective:val('effective'),status:'Active'});let rent=payments.filter(x=>x.property===+val('property')).reduce((a,x)=>a+(x.rent||0),0);let earned=(method==='fixed'?0:rent*rate/100)+(method==='percentage'?0:fixed);if(earned>0)commissionLedger.unshift({agent:val('agent'),property:+val('property'),period:'Current period',rentCollected:rent,rate,commission:earned,paid:0,status:'Accrued'})}
+closeModal();render();toast(type==='tenant'?'Tenant registered and portal access enabled in demo.':type==='agent'?'Agency and agent admin profile created in demo.':'Record saved in this demo.')}
+function editAgent(i){let a=agents[i];toast('Agency profile: '+a.company+' · '+a.email+' · '+a.address)}
+function editTenant(id){let t=tenants.find(x=>x.id===id);toast('Tenant access: '+t.name+' · '+t.email+' · Enabled')}
+function payCommission(i){let x=commissionLedger[i];let due=x.commission-x.paid;if(due<=0){toast('No outstanding commission balance.');return}let amount=prompt('Enter commission payout amount (KES). Outstanding: '+due,due);if(amount===null)return;let n=Number(amount);if(!Number.isFinite(n)||n<=0||n>due){toast('Enter a valid amount not exceeding the outstanding balance.');return}x.paid+=n;x.status=x.paid>=x.commission?'Paid':'Partially paid';render();toast('Commission payout recorded in demo.');}
+function invoiceTotal(x){return (x.rent||0)+(x.water||0)+(x.garbage||0)}
+function invoiceBalance(x){return Math.max(0,invoiceTotal(x)-(x.paid||0))}
+function generateMonthlyInvoices(){let period=new Date().toLocaleString('en-GB',{month:'long',year:'numeric'});let count=0;tenants.forEach(t=>{let u=units.find(x=>x.id===t.unit),p=prop(t.property);if(!u||!p)return;let exists=invoices.some(x=>x.tenant===t.name&&x.property===t.property&&x.house===u.house&&x.period===period);if(exists)return;let c=charges[t.property];invoices.unshift({number:'INV-'+Date.now().toString().slice(-5)+'-'+String(++count).padStart(2,'0'),tenant:t.name,property:t.property,house:u.house,period,rent:c.rent,water:c.water,garbage:c.garbage,paid:0,status:'Unpaid',due:'05 '+period.split(' ')[0]+' '+period.split(' ')[1],receipt:null})});render();toast(count+' monthly invoice(s) generated.')}
+function printDocument(title,body){let w=window.open('','_blank','width=800,height=900');if(!w){toast('Allow pop-ups to print this document.');return}w.document.write('<!doctype html><html><head><title>'+title+'</title><style>body{font:14px Arial;padding:36px;color:#1d2b3a}h1{color:#17324d}table{width:100%;border-collapse:collapse;margin-top:20px}td,th{padding:10px;border-bottom:1px solid #ddd;text-align:left}.total{font-size:20px;font-weight:bold;margin-top:24px}.muted{color:#68788a}</style></head><body>'+body+'<script>window.onload=()=>window.print()<\\/script></body></html>');w.document.close()}
+function printInvoice(i){let x=invoices[i];printDocument('RentFlow Invoice','<h1>RENTFLOW</h1><h2>INVOICE '+x.number+'</h2><p>Tenant: '+x.tenant+'<br>Property: '+prop(x.property).name+' · '+x.house+'<br>Period: '+x.period+'<br>Due date: '+x.due+'</p><table><tr><th>Description</th><th>Amount</th></tr><tr><td>House rent</td><td>'+cash(x.rent)+'</td></tr><tr><td>Water</td><td>'+cash(x.water)+'</td></tr><tr><td>Garbage collection</td><td>'+cash(x.garbage)+'</td></tr></table><p class="total">Total: '+cash(invoiceTotal(x))+'</p><p>Paid: '+cash(x.paid)+' · Balance: '+cash(invoiceBalance(x))+'</p><p class="muted">Electricity is not billed through RentFlow.</p>')}
+function printReceipt(i){let x=receipts[i];printDocument('RentFlow Receipt','<h1>RENTFLOW</h1><h2>PAYMENT RECEIPT '+x.number+'</h2><p>Tenant: '+x.tenant+'<br>Payment reference: '+x.paymentRef+'<br>Invoice: '+x.invoice+'<br>Property: '+prop(x.property).name+' · '+x.house+'<br>Date: '+x.date+'<br>Method: '+(x.method||'Not specified')+'</p><p class="total">Amount received: '+cash(x.amount)+'</p><p>Remaining invoice balance: '+cash(x.balance)+'</p><p class="muted">Thank you for your payment.</p>')}
+function viewInvoice(i){let x=invoices[i];alert('RENTFLOW INVOICE\\n'+x.number+'\\nTenant: '+x.tenant+'\\nProperty: '+prop(x.property).name+' / '+x.house+'\\nPeriod: '+x.period+'\\nRent: '+cash(x.rent)+'\\nWater: '+cash(x.water)+'\\nGarbage: '+cash(x.garbage)+'\\nTotal: '+cash(invoiceTotal(x))+'\\nPaid: '+cash(x.paid)+'\\nBalance: '+cash(invoiceBalance(x))+'\\nStatus: '+x.status)}
+function viewReceipt(i){let x=receipts[i];alert('RENTFLOW PAYMENT RECEIPT\\n'+x.number+'\\nPayment reference: '+x.paymentRef+'\\nInvoice: '+x.invoice+'\\nTenant: '+x.tenant+'\\nAmount received: '+cash(x.amount)+'\\nDate: '+x.date+'\\nMethod: '+(x.method||'Not specified')+'\\nRemaining invoice balance: '+cash(x.balance))}
+function toggleVacancy(i){vacancies[i].status=vacancies[i].status==='Published'?'Draft':'Published';render();toast('Vacancy listing status updated in demo.')}
+function sendReminders(){toast('Reminder batch prepared in demo. No SMS or email has been sent.')}
+function saveSettings(){platformSettings={payment:$('setting_payment').value,commission:$('setting_commission').value,water:$('setting_water').value};toast('Platform billing and commission settings saved in demo.')}
+
+function emailInvoice(i){
+ const x=invoices[i], recipient=tenants.find(t=>t.name===x.tenant)?.email||'';
+ const subject=`RentFlow invoice ${x.number} - ${x.period}`;
+ const body=`Dear ${x.tenant},\n\nPlease find your rental invoice details below:\nInvoice: ${x.number}\nProperty: ${prop(x.property).name} - ${x.house}\nBilling period: ${x.period}\nHouse rent: ${cash(x.rent)}\nWater: ${cash(x.water)}\nGarbage collection: ${cash(x.garbage)}\nTotal: ${cash(invoiceTotal(x))}\nPaid: ${cash(x.paid)}\nOutstanding balance: ${cash(invoiceBalance(x))}\nDue date: ${x.due}\n\nPlease use your usual approved payment channel. Electricity is not included.\n\nRegards,\nRentFlow Property Management`;
+ window.location.href='mailto:'+encodeURIComponent(recipient)+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+ toast('Email draft opened in your email app. Review and send it there.');
+}
+function openNotifications(){
+ const unread=notificationItems.filter(n=>!n.read).length;
+ $('modalTitle').textContent='Notification Centre';
+ $('modalBody').innerHTML=`<div class="sub" style="margin-bottom:12px">${unread} unread notification(s) · Platform and workspace alerts</div>`+
+ (notificationItems.length?notificationItems.map(n=>`<div class="notification-row"><div class="notification-icon">${n.type==='payment'?'↗':n.type==='invoice'?'▤':'⚒'}</div><div><b>${n.title} ${n.read?'':'<span class="pill amber">New</span>'}</b><div class="sub">${n.message}</div><small>${n.time}</small></div></div>`).join(''):'<div class="empty">You are all caught up.</div>')+
+ `<div class="formactions"><button class="btn light" onclick="markNotificationsRead()">Mark all as read</button><button class="btn" onclick="closeModal()">Close</button></div>`;
+ $('modalback').classList.add('show');
+}
+function markNotificationsRead(){notificationItems.forEach(n=>n.read=true);render();openNotifications();toast('Notifications marked as read.')}
+
+
+let currentTheme='dark';
+function applyTheme(theme){
+ currentTheme=theme==='light'?'light':'dark';
+ document.body.setAttribute('data-theme',currentTheme);
+ const b=$('themeToggle');
+ if(b){b.textContent=currentTheme==='dark'?'☀ Light':'☾ Dark';b.setAttribute('aria-label',currentTheme==='dark'?'Switch to light mode':'Switch to dark mode');}
+ try{localStorage.setItem('rentflow-theme',currentTheme)}catch(e){}
+}
+function toggleTheme(){applyTheme(currentTheme==='dark'?'light':'dark')}
+
+
+function saveProfile(){
+ const p=userProfiles[role],name=$('profile_name').value.trim(),email=$('profile_email').value.trim();
+ if(!name||!email){toast('Name and email are required.');return}
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){toast('Enter a valid email address.');return}
+ Object.assign(p,{name,email,phone:$('profile_phone').value.trim(),job:$('profile_job').value.trim(),company:$('profile_company').value.trim(),location:$('profile_location').value.trim(),bio:$('profile_bio').value.trim()});
+ render();toast('Profile updated in this demo workspace.');
+}
+function previewProfilePhoto(input){
+ const f=input.files&&input.files[0];if(!f)return;
+ if(!f.type.startsWith('image/')){toast('Please choose an image file.');return}
+ if(f.size>3*1024*1024){toast('Choose an image smaller than 3 MB.');return}
+ const reader=new FileReader();reader.onload=()=>{profilePhotos[role]=reader.result;const el=$('profilePhotoPreview');if(el)el.innerHTML=`<img src="${reader.result}" alt="Profile photo">`;};reader.readAsDataURL(f);
+}
+function changeDemoPassword(){
+ const a=$('profile_password').value,b=$('profile_password_confirm').value;
+ if(a.length<8){toast('Use at least 8 characters for the new password.');return}
+ if(a!==b){toast('The password entries do not match.');return}
+ $('profile_password').value='';$('profile_password_confirm').value='';
+ toast('Demo only: connect Supabase Auth to securely change passwords.');
+}
+
+function closeModal(){$('modalback').classList.remove('show')}
+try{applyTheme(localStorage.getItem('rentflow-theme')||'dark')}catch(e){applyTheme('dark')}
+role='agent';page=navs.agent[0][0];
+document.addEventListener('click',function(e){const wrap=$('profileMenuWrap');if(wrap&&!wrap.contains(e.target))closeProfileMenu()});
+</script>
+</body></html>
