@@ -1,6 +1,13 @@
-# RentFlow 🏠
+# ESTORA — Property Management Platform
 
-**Property management for landlords, agents and tenants.** RentFlow brings properties, units, tenant onboarding, recurring charges, rent collection, water billing, garbage fees and maintenance into one workspace.
+**Property management for agencies, agents, landlords and tenants.** ESTORA is being developed as a multi-agency property management platform: each agency will have its own workspace, users and isolated operational records, while platform administration provides central oversight.
+
+## Product identity
+- Platform: ESTORA
+- Positioning: Property Management, Connected
+- Tagline: Property management, without the complexity.
+- Primary roles: Platform Super Admin, Agency Admin, Agent, Landlord and Tenant
+- Initial market workflows: Kenya-first, with KES currency support
 
 ## Technology
 - React 18 + Vite + TypeScript
@@ -12,48 +19,45 @@
 1. Install Node.js 20 or later.
 2. Clone this repository and run `npm install`.
 3. Copy `.env.example` to `.env`.
-4. Add your Supabase project URL and anon key to `.env`.
-5. Run the SQL migration in `supabase/migrations/001_initial_schema.sql` using the Supabase SQL Editor.
+4. Add your Supabase project URL and publishable/anon key to `.env`.
+5. Apply the SQL migrations for the relevant application schema.
 6. Start with `npm run dev`; create a production build with `npm run build`.
 
-## Current foundation
-- Landlord and tenant dashboard views (use the view switcher in the header).
+## Product foundation
+- Landlord and tenant dashboard views in the React application.
 - Portfolio KPIs, rental income chart and occupancy overview.
 - Unit list with tenant, property, rent, water, garbage and occupancy status.
 - Tenant registration form prototype and tenant bill/payment summary.
-- PostgreSQL schema for profiles, properties, units, leases, invoices, invoice items, payments, water readings, maintenance requests and audit logs.
-- Row Level Security policies that scope landlord access to owned properties and tenant access to their own active lease.
-- Profile role-change protection trigger.
+- Supabase schema and role-aware Row Level Security foundation.
+- Separate role-based demo centre published at `/RentFlow/demo/`.
 
-## Supabase first landlord setup
-Create the first user in Supabase Authentication, then run the one-time profile insert in [supabase/seed/README.md](supabase/seed/README.md). Role assignment must be performed by a trusted administrator/server process; never let a user promote their own account.
+## Role-based demo centre
+- Agency workspace: `/RentFlow/demo/agent/`
+- Platform administration: `/RentFlow/demo/superadmin/`
+- Landlord portal: `/RentFlow/demo/landlord/`
+- Tenant portal: `/RentFlow/demo/tenant/`
 
-## Important implementation status
-The current UI contains demonstrator data and form prototypes. It is **not yet a production-connected rental ledger**. Supabase credentials and migration must be configured, then the CRUD screens, invoice generation, receipts, notifications and reporting must be wired to live data. Do not rely on demo amounts for actual tenant balances.
+The demo uses clearly labelled sample records and browser-local storage. Creating or editing demo records does not update Supabase, send real notifications, or process payments. Demo pages are product walkthroughs only.
 
-## M-Pesa and scheduled billing
-Daraja STK Push, callback verification, automatic monthly invoice generation and SMS/email reminders are documented in [supabase/functions/README.md](supabase/functions/README.md), but are not deployed. They must run server-side using secrets, with idempotency and verified callbacks. Never place a service-role key, Daraja consumer secret or passkey in a `VITE_*` variable.
+## Current implementation status
+The platform is under active development. The Agent Admin and Tenant sign-in path has been connected to Supabase Auth, and selected agency operations have been connected to the `rentflow` schema. The current UI still contains demonstrator data and form prototypes. Do not rely on demo amounts for actual tenant balances. Before production onboarding, complete end-to-end CRUD verification, agency provisioning, account invitations, invoice generation, payment reconciliation, notifications, reporting and tenant/landlord portal integration.
+
+## Payments and scheduled billing
+Daraja STK Push, callback verification, automatic monthly invoice generation and SMS/email reminders require secure server-side implementation. They must use server-side secrets, idempotency and verified callbacks. Never place a service-role key, Daraja consumer secret or passkey in a `VITE_*` variable.
 
 ## Security notes
 - Keep the Supabase service-role key server-side only.
-- Review and test all RLS policies with separate landlord and tenant accounts before importing real tenant data.
+- Test RLS with separate platform, agency, landlord and tenant accounts before importing real data.
+- Never allow users to promote their own role or change their agency assignment.
 - Payment status must only be changed by a trusted server-side payment callback or authorized reconciliation process.
 - Keep an audit trail for rent/charge edits, invoice adjustments and payment reversals.
 
 ## Roadmap
-1. Supabase auth, account invitations and landlord/property-manager role provisioning.
-2. Live property, unit, tenant and lease management.
-3. Idempotent monthly billing with charge snapshots and rent-change history.
-4. M-Pesa STK push, callback validation, reconciliation and digital receipts.
-5. Tenant statements, arrears reminders, maintenance workflow and exports.
-6. Automated tests, accessibility review and production deployment.
+1. Complete platform-level agency onboarding and secure agency-admin provisioning.
+2. Finish live property, unit, tenant, landlord and lease CRUD.
+3. Implement idempotent monthly billing with charge snapshots and rent-change history.
+4. Add M-Pesa STK push, callback validation, reconciliation and digital receipts.
+5. Complete tenant/landlord portals, statements, arrears reminders, maintenance workflow and exports.
+6. Add automated tests, accessibility review and production deployment.
 
-## Role-based demo centre
-The static demo is published alongside the main application at `/RentFlow/demo/`.
-
-- Agent workspace: `/RentFlow/demo/agent/`
-- Super Admin workspace: `/RentFlow/demo/superadmin/`
-- Landlord workspace: `/RentFlow/demo/landlord/`
-- Tenant workspace: `/RentFlow/demo/tenant/`
-
-The demo uses clearly labelled sample records and browser-local storage. Creating or editing demo records does not update Supabase, send real notifications, or process payments. Use it for product walkthroughs only; production authentication, payment processing and tenant data remain in the main application and must be configured separately.
+> Branding has been updated to ESTORA. The repository and existing Supabase schema identifiers remain unchanged to avoid breaking deployment paths and database integrations during the rebrand.
