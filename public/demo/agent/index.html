@@ -302,7 +302,7 @@ function closeProfileMenu(){
 function openMyProfile(){closeProfileMenu();go('My Profile')}
 const RENTFLOW_URL='https://glssdqflvfkmjcmtqxib.supabase.co';
 const RENTFLOW_KEY='sb_publishable_SYaAb9QrstSxkTBFUl4FJA_0REhxzLj';
-const rfClient=window.supabase.createClient(RENTFLOW_URL,RENTFLOW_KEY,{db:{schema:'rentflow'},auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+const rfClient=window.supabase.createClient(RENTFLOW_URL,RENTFLOW_KEY,{db:{schema:'rentflow'},auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:'estora-agent-auth-v1'}});
 window.rentflowSupabase=rfClient;
 let signedInProfile=null;
 function updateLoginRole(){const r=$('demoRole').value;const n=r==='agent'?'Agent Admin':'Tenant';$('loginHeading').textContent=n+' sign in';$('loginDescription').textContent='Sign in with your registered ESTORA account.';$('demoEmail').value='';$('demoPassword').value='';$('demoCredentials').textContent='Use the email and password issued by your ESTORA administrator.';$('loginError').textContent=''}
@@ -344,14 +344,30 @@ async function agentDemoLogin(e){
  const {data,error}=await rfClient.auth.signInWithPassword({email,password});
  if(error){$('loginError').textContent=error.message;return false;}
  const {data:profileData,error:profileError}=await rfClient.schema('public').from('estora_login_profiles').select('id,email,full_name,role,agency_id').eq('id',data.user.id).maybeSingle();
- if(profileError||!profileData){await rfClient.auth.signOut();$('loginError').textContent='Profile lookup failed: '+(profileError?.message||'No profile row found for this Auth user.');return false;}
+ if(profileError||!profileData){$('loginError').textContent='Profile lookup failed: '+(profileError?.message||'No profile row found for this Auth user.');return false;}
  const expected=selected==='agent'?'agent_admin':'tenant';
- if(profileData.role!==expected){await rfClient.auth.signOut();$('loginError').textContent='This account is not authorised for the selected workspace.';return false;}
- if(expected==='agent_admin'&&!profileData.agency_id){await rfClient.auth.signOut();$('loginError').textContent='Your agency workspace has not been configured. Contact support.';return false;}
+ if(profileData.role!==expected){$('loginError').textContent='This account is not authorised for the selected workspace.';return false;}
+ if(expected==='agent_admin'&&!profileData.agency_id){$('loginError').textContent='Your agency workspace has not been configured. Contact support.';return false;}
  signedInProfile=profileData;role=selected;page=navs[role][0][0];
- try{await loadESTORAWorkspace(profileData);}catch(err){await rfClient.auth.signOut();$('loginError').textContent='Could not load your shared workspace: '+err.message;return false;}
+ try{await loadESTORAWorkspace(profileData);}catch(err){$('loginError').textContent='Could not load your shared workspace: '+err.message;return false;}
  $('agentLogin').style.display='none';$('rentflowApp').style.display='flex';render();return false;
 }
+async function restoreESTORASession(){
+ const {data:{session},error}=await rfClient.auth.getSession();
+ if(error)throw error;
+ if(!session?.user)return false;
+ const {data:profileData,error:profileError}=await rfClient.schema('public').from('estora_login_profiles').select('id,email,full_name,role,agency_id').eq('id',session.user.id).maybeSingle();
+ if(profileError)throw profileError;
+ if(!profileData)throw new Error('Your signed-in account has no ESTORA workspace profile.');
+ const selected=profileData.role==='agent_admin'?'agent':profileData.role==='tenant'?'tenant':null;
+ if(!selected)throw new Error('Your account is not authorised for this portal.');
+ if(selected==='agent'&&!profileData.agency_id)throw new Error('Your agency workspace has not been configured.');
+ signedInProfile=profileData;role=selected;page=navs[role][0][0];
+ await loadESTORAWorkspace(profileData);
+ $('agentLogin').style.display='none';$('rentflowApp').style.display='flex';render();
+ return true;
+}
+
 function dash(){
 const money=v=>cash(v||0);
 const pct=(a,b)=>b?Math.round(a/b*100):0;
@@ -580,6 +596,8 @@ function changeDemoPassword(){
 function closeModal(){$('modalback').classList.remove('show')}
 try{applyTheme(localStorage.getItem('rentflow-theme')||'dark')}catch(e){applyTheme('dark')}
 role='agent';page=navs.agent[0][0];
+// Restore an existing Supabase session on every page load; only the explicit Sign out action clears it.
+window.addEventListener('DOMContentLoaded',async()=>{try{await restoreESTORASession()}catch(err){console.error('ESTORA session restore failed:',err);$('loginError').textContent='Your session is still saved, but the workspace could not load: '+(err.message||'Please refresh to retry.')}});
 document.addEventListener('click',function(e){const wrap=$('profileMenuWrap');if(wrap&&!wrap.contains(e.target))closeProfileMenu()});
 </script>
 </body></html>
