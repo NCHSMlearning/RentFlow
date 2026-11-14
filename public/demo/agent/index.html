@@ -277,7 +277,7 @@ let commissionLedger=[
 {agent:'Prime Estate Management',property:2,period:'November 2026',rentCollected:220000,rate:0,commission:3500,paid:0,status:'Accrued'}
 ];
 const $=id=>document.getElementById(id),cash=n=>'KES '+Number(n||0).toLocaleString('en-KE');
-const prop=id=>properties.find(p=>p.id===Number(id))||properties[0],unit=id=>units.find(u=>u.id===Number(id));
+const prop=id=>properties.find(p=>String(p.id)===String(id))||properties[0]||{id:null,name:'No property assigned',plot:'',location:'',landlord:'',manager:'',units:0,occupied:0,rent:0,water:0,garbage:0},unit=id=>units.find(u=>String(u.id)===String(id))||null;
 function toast(s){$('toast').textContent=s;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2600)}
 function badge(s){let c=['Paid','Active','Occupied','Assigned'].includes(s)?'green':['Overdue','Vacant','Rejected'].includes(s)?'red':'amber';return `<span class="pill ${c}">${s}</span>`}
 function stat(label,value,note){return `<div class="stat"><label>${label}</label><strong>${value}</strong><small>${note}</small></div>`}
@@ -309,23 +309,33 @@ function updateLoginRole(){const r=$('demoRole').value;const n=r==='agent'?'Agen
 function switchRole(r){if(!navs[r])return;role=r;page=navs[r][0][0];render()}
 async function agentDemoLogout(){closeProfileMenu();await rfClient.auth.signOut();signedInProfile=null;$('rentflowApp').style.display='none';$('agentLogin').style.display='grid';$('demoPassword').value='';$('loginError').textContent='';}
 async function loadESTORAWorkspace(profile){
- const [p,u,t,i,m]=await Promise.all([
+ const [agencyResult,p,u,t,i,m]=await Promise.all([
+  rfClient.from('agencies').select('id,name').eq('id',profile.agency_id).maybeSingle(),
   rfClient.from('properties').select('*').order('created_at',{ascending:false}),
   rfClient.from('units').select('*').order('created_at',{ascending:false}),
   rfClient.from('tenants').select('*').order('created_at',{ascending:false}),
   rfClient.from('invoices').select('*').order('created_at',{ascending:false}),
   rfClient.from('maintenance_requests').select('*').order('created_at',{ascending:false})
  ]);
- const errors=[p,u,t,i,m].filter(x=>x.error);
+ const errors=[agencyResult,p,u,t,i,m].filter(x=>x.error);
  if(errors.length)throw new Error(errors[0].error.message);
- properties=p.data.map(x=>({id:x.id,name:x.name,plot:'',location:x.address||'',landlord:'',manager:'',units:0,occupied:0,rent:0,water:0,garbage:0}));
- units=u.data.map(x=>({id:x.id,property:x.property_id,house:x.unit_number,floor:'',tenant:'Vacant',rent:Number(x.monthly_rent||0)}));
- tenants=t.data.map(x=>({id:x.id,name:x.full_name,email:x.email||'',phone:x.phone||'',property:properties.find(p=>p.id===units.find(u=>u.id===x.unit_id)?.property)?.id||'',unit:x.unit_id||''}));
- invoices=i.data.map(x=>({number:x.invoice_number,tenant:tenants.find(t=>t.id===x.tenant_id)?.name||'Tenant',property:tenants.find(t=>t.id===x.tenant_id)?.property,house:units.find(u=>u.id===tenants.find(t=>t.id===x.tenant_id)?.unit)?.house||'',period:x.period,rent:Number(x.amount_due||0),water:0,garbage:0,paid:Number(x.amount_paid||0),status:x.status,due:x.due_date,receipt:null}));
- maintenanceRequests=m.data;
+ if(agencyResult.data)agency={...agency,name:agencyResult.data.name};
+ properties=(p.data||[]).map(x=>({id:x.id,name:x.name,plot:'',location:x.address||'',landlord:'',manager:profile.full_name||'Agency Admin',units:0,occupied:0,rent:0,water:0,garbage:0}));
+ units=(u.data||[]).map(x=>({id:x.id,property:x.property_id,house:x.unit_number,floor:'',tenant:'Vacant',rent:Number(x.monthly_rent||0)}));
+ tenants=(t.data||[]).map(x=>({id:x.id,name:x.full_name,email:x.email||'',phone:x.phone||'',property:properties.find(p=>String(p.id)===String(units.find(u=>String(u.id)===String(x.unit_id))?.property))?.id||'',unit:x.unit_id||''}));
+ units=units.map(x=>({...x,tenant:tenants.find(t=>String(t.unit)===String(x.id))?.name||'Vacant'}));
+ properties=properties.map(p=>{const pu=units.filter(u=>String(u.property)===String(p.id));return {...p,units:pu.length,occupied:pu.filter(u=>u.tenant!=='Vacant').length,rent:pu.reduce((sum,u)=>sum+Number(u.rent||0),0)}});
+ invoices=(i.data||[]).map(x=>({number:x.invoice_number,tenant:tenants.find(t=>String(t.id)===String(x.tenant_id))?.name||'Tenant',property:tenants.find(t=>String(t.id)===String(x.tenant_id))?.property||'',house:units.find(u=>String(u.id)===String(tenants.find(t=>String(t.id)===String(x.tenant_id))?.unit))?.house||'',period:x.period,rent:Number(x.amount_due||0),water:0,garbage:0,paid:Number(x.amount_paid||0),status:x.status,due:x.due_date,receipt:null}));
+ maintenanceRequests=m.data||[];
+ charges={};properties.forEach(p=>charges[p.id]={rent:p.rent,water:0,garbage:0});
+ // These ledgers do not yet have backing tables in this database; never show seeded demo transactions as live agency records.
+ payments=[];receipts=[];commissionLedger=[];meterReadings=[];leases=[];payoutRecords=[];comms=[];
  if(profile.role==='tenant'){
-  const mine=t.data.find(x=>x.profile_id===profile.id);
-  if(mine){tenants=tenants.filter(x=>x.id===mine.id);invoices=invoices.filter(x=>x.tenant===mine.full_name);}
+  const mine=tenants.find(x=>String(x.id)===String(profile.id));
+  tenants=mine?[mine]:[];
+  invoices=mine?invoices.filter(x=>x.tenant===mine.name):[];
+  properties=mine?properties.filter(p=>String(p.id)===String(mine.property)):[];
+  units=mine?units.filter(u=>String(u.id)===String(mine.unit)):[];
  }
 }
 async function agentDemoLogin(e){
@@ -369,10 +379,10 @@ let rentCollected=myPayments.reduce((a,x)=>a+x.rent,0);
 let myProperties=properties.filter(p=>p.manager===myName||p.manager===agency.name||p.manager==='Peter Kamau');
 let occupied=units.filter(u=>u.tenant!=='Vacant').length;
 return head('Agency Admin Dashboard','Your managed portfolio, collections, tenant services and personal agent commission.',btn('Record collection',"openForm('payment')"))+`<div class="dashboard-intro"><span class="sub">Agency performance · ${todayLabel}</span><span class="pill success">Agency workspace</span></div>`+
-`<div class="stats">${stat('Assigned properties',myProperties.length||2,'Your portfolio')}${stat('Units managed',units.length,'Across assigned plots')}${stat('Active tenants',tenants.length,'Tenant accounts')}${stat('Rent collected',money(rentCollected||684500),'Demo period')}${stat('Commission earned',money(earned),'Your commission ledger')}${stat('Commission paid',money(paid),'Recorded payouts')}${stat('Commission balance',money(earned-paid),'Awaiting settlement')}${stat('Occupancy',pct(occupied,units.length)+'%','Portfolio occupancy')}</div>`+
+`<div class="stats">${stat('Assigned properties',myProperties.length,'Your portfolio')}${stat('Units managed',units.length,'Across assigned plots')}${stat('Active tenants',tenants.length,'Tenant accounts')}${stat('Rent collected',money(rentCollected),'Recorded collections')}${stat('Commission earned',money(earned),'Your commission ledger')}${stat('Commission paid',money(paid),'Recorded payouts')}${stat('Commission balance',money(earned-paid),'Awaiting settlement')}${stat('Occupancy',pct(occupied,units.length)+'%','Portfolio occupancy')}</div>`+
 panel('Agent workspace','Your daily operational shortcuts',actionTiles([['My Plots','⌂','Managed properties'],['Tenants & Access','♧','Tenant accounts'],['Rent Collection','▧','Record payments'],['Invoices & Receipts','▤','Invoices and receipts'],['Commission Statements','％','Your earnings'],['Maintenance','⚒','Open requests'],['Arrears & Reminders','◷','Overdue balances'],['Reports','▥','Collection performance']]))+
-`<div class="grid2">${panel('My commission summary','Commission earned from assigned property collections',`<div class="notice">Commission accrued <b style="float:right">${money(earned)}</b></div><div class="notice">Already paid <b style="float:right">${money(paid)}</b></div><div class="notice">Outstanding to you <b style="float:right">${money(earned-paid)}</b></div>${btn('View commission statement',"go('Commission Statements')")}`)}${panel('Collection performance','Payment activity',`<div class="notice">Rent collected <b style="float:right">${money(rentCollected||684500)}</b></div><div class="notice">Payment records <b style="float:right">${payments.length}</b></div><div class="notice">Open maintenance requests <b style="float:right">2</b></div><div class="notice">Invoices awaiting payment <b style="float:right">${invoices.filter(x=>invoiceBalance(x)>0).length}</b></div>`)}</div>`+
-panel('Recent tenant payments','Latest collection records',table(['Reference','Tenant','Property','Rent','Total','Date','Status'],payments.slice(0,5).map(x=>[x.ref,x.tenant,prop(x.property).name,money(x.rent),money(x.rent+x.water+x.garbage),x.date,badge(x.status)])));
+`<div class="grid2">${panel('My commission summary','Commission earned from assigned property collections',`<div class="notice">Commission accrued <b style="float:right">${money(earned)}</b></div><div class="notice">Already paid <b style="float:right">${money(paid)}</b></div><div class="notice">Outstanding to you <b style="float:right">${money(earned-paid)}</b></div>${btn('View commission statement',"go('Commission Statements')")}`)}${panel('Collection performance','Payment activity',`<div class="notice">Rent collected <b style="float:right">${money(rentCollected)}</b></div><div class="notice">Payment records <b style="float:right">${payments.length}</b></div><div class="notice">Open maintenance requests <b style="float:right">2</b></div><div class="notice">Invoices awaiting payment <b style="float:right">${invoices.filter(x=>invoiceBalance(x)>0).length}</b></div>`)}</div>`+
+panel('Recent tenant payments','Live payment records will appear here when the payments ledger is connected',table(['Reference','Tenant','Property','Rent','Total','Date','Status'],payments.map(x=>[x.ref,x.tenant,prop(x.property).name,money(x.rent),money(x.rent+x.water+x.garbage),x.date,badge(x.status)])))+(properties.length?'':`<div class="notice">Your agency workspace is ready, but no properties have been added yet. Start by adding your first property under My Plots.</div>`);
 }
 if(role==='landlord'){
 let ownerProps=properties.filter(p=>p.landlord==='John Mwangi'||p.manager==='Independent');
