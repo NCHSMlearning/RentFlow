@@ -333,8 +333,8 @@ async function agentDemoLogin(e){
  $('loginError').textContent='Signing in securely…';
  const {data,error}=await rfClient.auth.signInWithPassword({email,password});
  if(error){$('loginError').textContent=error.message;return false;}
- const {data:profileData,error:profileError}=await rfClient.from('profiles').select('*').eq('id',data.user.id).single();
- if(profileError||!profileData){await rfClient.auth.signOut();$('loginError').textContent='Your ESTORA profile is not ready. Contact your administrator.';return false;}
+ const {data:profileData,error:profileError}=await rfClient.schema('rentflow').from('profiles').select('id,email,full_name,role,agency_id').eq('id',data.user.id).maybeSingle();
+ if(profileError||!profileData){await rfClient.auth.signOut();$('loginError').textContent='Profile lookup failed: '+(profileError?.message||'No profile row found for this Auth user.');return false;}
  const expected=selected==='agent'?'agent_admin':'tenant';
  if(profileData.role!==expected){await rfClient.auth.signOut();$('loginError').textContent='This account is not authorised for the selected workspace.';return false;}
  if(expected==='agent_admin'&&!profileData.agency_id){await rfClient.auth.signOut();$('loginError').textContent='Your agency workspace has not been configured. Contact support.';return false;}
