@@ -286,7 +286,7 @@ function greeting(){let h=new Date().getHours();return h<12?'Good morning':h<17?
 function displayName(){return signedInProfile?.full_name||userProfiles[role]?.name||({super:'Platform Administrator',agent:'Agency Admin',landlord:'Property Owner',tenant:'Tenant'}[role])}
 function head(title,desc,action=''){return `<div class="head"><div><div class="greeting">☀ ${greeting()}, ${displayName()}</div><div class="eyebrow">${({super:'Platform control',agent:'Agency management workspace',landlord:'Independent landlord workspace',tenant:'Tenant self-service portal'})[role]}</div><h1>${title}</h1><div class="sub">${desc}</div></div>${action}</div>`}
 function btn(text,action,light=false){return `<button class="btn ${light?'light':''}" onclick="${action}">${text}</button>`}
-function render(){try{$('notificationCount').textContent=notificationItems.filter(n=>!n.read).length;$('crumb').textContent=page;$('who').textContent={super:'Platform Administrator',agent:agency.name+' · Agency Admin',landlord:'Samuel Otieno · Property Owner',tenant:'Mary Wanjiku · Tenant'}[role];$('roleLabel').textContent={super:'SUPER ADMIN',agent:'AGENT WORKSPACE',landlord:'LANDLORD WORKSPACE',tenant:'TENANT PORTAL'}[role];$('avatar').textContent={super:'SA',agent:'PA',landlord:'SO',tenant:'MW'}[role];$('sideFoot').innerHTML='ESTORA · v13 workspace<br>'+({super:'Platform administration',agent:'Agency Admin workspace',landlord:'Property owner workspace',tenant:'Tenant self-service portal'}[role]);$('nav').innerHTML=navs[role].map(([n,i])=>`<button class="${page===n?'active':''}" onclick="go('${n}')"><span class="ic">${i}</span>${n}</button>`).join('');$('content').innerHTML=content()}catch(err){console.error('ESTORA module render error:',page,err);$('content').innerHTML=`<div class="panel"><h2>This section could not be displayed</h2><p class="sub">${String(err?.message||err)}</p><button class="btn" onclick="go('Overview')">Return to dashboard</button></div>`}}
+function render(){try{document.body.classList.toggle('tenant-workspace',role==='tenant');$('notificationCount').textContent=notificationItems.filter(n=>!n.read).length;$('crumb').textContent=page;$('who').textContent={super:'Platform Administrator',agent:agency.name+' · Agency Admin',landlord:'Samuel Otieno · Property Owner',tenant:'Mary Wanjiku · Tenant'}[role];$('roleLabel').textContent={super:'SUPER ADMIN',agent:'AGENT WORKSPACE',landlord:'LANDLORD WORKSPACE',tenant:'TENANT PORTAL'}[role];$('avatar').textContent={super:'SA',agent:'PA',landlord:'SO',tenant:'MW'}[role];$('sideFoot').innerHTML='ESTORA · v13 workspace<br>'+({super:'Platform administration',agent:'Agency Admin workspace',landlord:'Property owner workspace',tenant:'Tenant self-service portal'}[role]);$('nav').innerHTML=navs[role].map(([n,i])=>`<button class="${page===n?'active':''}" onclick="go('${n}')"><span class="ic">${i}</span>${n}</button>`).join('');$('content').innerHTML=content()}catch(err){console.error('ESTORA module render error:',page,err);$('content').innerHTML=`<div class="panel"><h2>This section could not be displayed</h2><p class="sub">${String(err?.message||err)}</p><button class="btn" onclick="go('Overview')">Return to dashboard</button></div>`}}
 function go(p){page=p;render();$('side').classList.remove('open');closeProfileMenu()}
 function toggleProfileMenu(e){
  e.stopPropagation();
@@ -553,6 +553,45 @@ function printDocument(title,body){let w=window.open('','_blank','width=800,heig
 .tenant-kpis .stat strong{color:#1b3545!important;font-size:25px!important;font-weight:750;letter-spacing:-.6px}
 .tenant-kpis .stat small{color:#71818b!important;font-size:11px}
 @media(max-width:760px){.tenant-kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.tenant-kpis .stat{padding:13px}.tenant-kpis .stat strong{font-size:20px!important}}
+/* Dedicated ESTORA tenant theme: calm, editorial, residential */
+body.tenant-workspace{background:#f3f6f5!important;color:#243746!important}
+body.tenant-workspace .side{background:#173d3a!important;border-right:1px solid #2c5d55!important}
+body.tenant-workspace .brand b{color:#fff!important}
+body.tenant-workspace .brand small{color:#b4d2cb!important}
+body.tenant-workspace .navlabel{color:#9dc4b9!important}
+body.tenant-workspace .nav button{color:#d4e4df!important;border-radius:9px!important;padding:12px!important;font-size:13px!important}
+body.tenant-workspace .nav button.active,body.tenant-workspace .nav button:hover{background:#285d54!important;border-color:#4d9b88!important;box-shadow:inset 3px 0 #d9b66f!important}
+body.tenant-workspace .top{background:#fff!important;border-bottom:1px solid #e3e9e7!important;color:#203744!important}
+body.tenant-workspace .crumb,body.tenant-workspace .crumb b{color:#526773!important}
+body.tenant-workspace .role{background:#f4f8f6!important;border-color:#dce7e2!important;color:#34534d!important}
+body.tenant-workspace .content{max-width:1440px!important;padding:28px 32px 48px!important}
+body.tenant-workspace .head h1{color:#203b43!important;font-size:28px!important;font-weight:720!important}
+body.tenant-workspace .eyebrow{color:#378878!important}
+body.tenant-workspace .sub{color:#75868c!important}
+body.tenant-workspace .panel{background:#fff!important;border:1px solid #e3eae7!important;border-radius:13px!important;box-shadow:0 4px 16px rgba(34,63,55,.045)!important;color:#243746!important}
+body.tenant-workspace .panelhead h3{color:#29464a!important}
+body.tenant-workspace .panelhead small{color:#81918e!important}
+body.tenant-workspace .btn{background:#247d6b!important;border:1px solid #247d6b!important;color:#fff!important;box-shadow:none!important;border-radius:8px!important}
+body.tenant-workspace .btn.light{background:#edf5f1!important;color:#286354!important;border-color:#d5e6dd!important}
+body.tenant-workspace .tile{background:#fff!important;border:1px solid #e1e9e5!important;border-radius:12px!important;box-shadow:0 3px 12px rgba(35,61,54,.04)!important;color:#29434a!important}
+body.tenant-workspace .tile span{color:#328875!important}
+body.tenant-workspace .tile small{color:#7a8b8c!important}
+body.tenant-workspace .tile:hover{border-color:#8fc5b5!important;background:#f9fcfa!important}
+body.tenant-workspace .notice{background:#f0f7f3!important;border:1px solid #dcebe3!important;color:#3c665b!important}
+body.tenant-workspace td{color:#40555c!important;border-color:#edf1ef!important}
+body.tenant-workspace th{color:#82928e!important;border-color:#e7eeea!important}
+body.tenant-workspace .stat{background:#fff!important;border:1px solid #e3eae7!important;border-radius:13px!important;box-shadow:0 3px 14px rgba(34,63,55,.04)!important;color:#243746!important}
+body.tenant-workspace .stat:before{background:#368d79!important}
+body.tenant-workspace .stat label{color:#778985!important}
+body.tenant-workspace .stat strong{color:#203d42!important}
+body.tenant-workspace .stat small{color:#84938e!important}
+body.tenant-workspace .tenant-kpis .stat:nth-child(4n+1),body.tenant-workspace .tenant-kpis .stat:nth-child(4n+2),body.tenant-workspace .tenant-kpis .stat:nth-child(4n+3),body.tenant-workspace .tenant-kpis .stat:nth-child(4n){background:#fff!important}
+body.tenant-workspace .pill.green{background:#e5f4ed!important;color:#287451!important}
+body.tenant-workspace .pill.amber{background:#fff4df!important;color:#936b28!important}
+body.tenant-workspace .pill.red{background:#fbe9e7!important;color:#a54f47!important}
+body.tenant-workspace .sidefoot{border-color:#37665c!important;color:#b1cbc2!important}
+body.tenant-workspace .avatar{background:#dcefe8!important;color:#286354!important}
+@media(max-width:680px){body.tenant-workspace .content{padding:20px 14px 36px!important}}
 </style></head><body>'+body+'<script>window.onload=()=>window.print()<\\/script></body></html>');w.document.close()}
 function printInvoice(i){let x=invoices[i];printDocument('ESTORA Invoice','<h1>RENTFLOW</h1><h2>INVOICE '+x.number+'</h2><p>Tenant: '+x.tenant+'<br>Property: '+prop(x.property).name+' · '+x.house+'<br>Period: '+x.period+'<br>Due date: '+x.due+'</p><table><tr><th>Description</th><th>Amount</th></tr><tr><td>House rent</td><td>'+cash(x.rent)+'</td></tr><tr><td>Water</td><td>'+cash(x.water)+'</td></tr><tr><td>Garbage collection</td><td>'+cash(x.garbage)+'</td></tr></table><p class="total">Total: '+cash(invoiceTotal(x))+'</p><p>Paid: '+cash(x.paid)+' · Balance: '+cash(invoiceBalance(x))+'</p><p class="muted">Electricity is not billed through ESTORA.</p>')}
 function printReceipt(i){let x=receipts[i];printDocument('ESTORA Receipt','<h1>RENTFLOW</h1><h2>PAYMENT RECEIPT '+x.number+'</h2><p>Tenant: '+x.tenant+'<br>Payment reference: '+x.paymentRef+'<br>Invoice: '+x.invoice+'<br>Property: '+prop(x.property).name+' · '+x.house+'<br>Date: '+x.date+'<br>Method: '+(x.method||'Not specified')+'</p><p class="total">Amount received: '+cash(x.amount)+'</p><p>Remaining invoice balance: '+cash(x.balance)+'</p><p class="muted">Thank you for your payment.</p>')}
