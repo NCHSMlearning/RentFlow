@@ -47,3 +47,13 @@ Daraja STK Push, callback verification, automatic monthly invoice generation and
 4. M-Pesa STK push, callback validation, reconciliation and digital receipts.
 5. Tenant statements, arrears reminders, maintenance workflow and exports.
 6. Automated tests, accessibility review and production deployment.
+
+## Role-based demo centre
+The static demo is published alongside the main application at `/RentFlow/demo/`.
+
+- Agent workspace: `/RentFlow/demo/agent/`
+- Super Admin workspace: `/RentFlow/demo/superadmin/`
+- Landlord workspace: `/RentFlow/demo/landlord/`
+- Tenant workspace: `/RentFlow/demo/tenant/`
+
+The demo uses clearly labelled sample records and browser-local storage. Creating or editing demo records does not update Supabase, send real notifications, or process payments. Use it for product walkthroughs only; production authentication, payment processing and tenant data remain in the main application and must be configured separately.
