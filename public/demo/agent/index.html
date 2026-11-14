@@ -300,8 +300,8 @@ function closeProfileMenu(){
  if(menu){menu.classList.remove('open');button.setAttribute('aria-expanded','false')}
 }
 function openMyProfile(){closeProfileMenu();go('My Profile')}
-const RENTFLOW_URL='https://prjwtxbmewskkpcfiklo.supabase.co';
-const RENTFLOW_KEY='sb_publishable_X6WlYdJxuS1nWwy8avgn2w_RpIppGQ4';
+const RENTFLOW_URL='https://glssdqflvfkmjcmtqxib.supabase.co';
+const RENTFLOW_KEY='sb_publishable_SYaAb9QrstSxkTBFUl4FJA_0REhxzLj';
 const rfClient=window.supabase.createClient(RENTFLOW_URL,RENTFLOW_KEY,{db:{schema:'rentflow'},auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 window.rentflowSupabase=rfClient;
 let signedInProfile=null;
