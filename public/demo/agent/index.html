@@ -182,11 +182,11 @@ body[data-theme="light"] .profile-info span{color:#738496}
 <form class="login-card" onsubmit="return agentDemoLogin(event)">
 <div class="login-mark">⌂</div><div class="login-brand">RentFlow</div><div class="login-kicker">PROPERTY MANAGEMENT PLATFORM</div>
 <h1 id="loginHeading">Sign in to RentFlow</h1><p id="loginDescription">Choose a workspace and access the matching demo portal.</p>
-<label for="demoRole">Workspace</label><select id="demoRole" onchange="updateLoginRole()"><option value="agent">Agent / Agency Admin</option><option value="super">Super Admin</option><option value="landlord">Landlord</option><option value="tenant">Tenant</option></select>
+<label for="demoRole">Workspace</label><select id="demoRole" onchange="updateLoginRole()"><option value="agent">Agent Admin</option><option value="tenant">Tenant</option></select>
 <label for="demoEmail">Email address</label><input id="demoEmail" type="email" value="agent@rentflow.demo" autocomplete="username" required>
 <label for="demoPassword">Password</label><input id="demoPassword" type="password" placeholder="Enter demo password" autocomplete="current-password" required>
 <div id="loginError" class="login-error"></div><button class="login-submit" type="submit">Sign in to RentFlow</button>
-<div class="demo-credentials" id="demoCredentials"><b>Demo credentials</b><br>agent@rentflow.demo<br>Agent@123</div>
+<div class="demo-credentials" id="demoCredentials">Use the email and password issued by your RentFlow administrator. Your account is verified securely by Supabase.</div>
 </form></section><div class="app" id="rentflowApp" style="display:none">
 <aside class="side" id="side"><div class="brand"><div class="logo" aria-label="RentFlow logo"><svg viewBox="0 0 48 48" role="img" aria-label="RentFlow mark"><path d="M8 39V19L24 7l16 12v20M16 39V23l8-6 8 6v16M24 39V27" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 20L24 4l20 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div><div><b>RentFlow</b><small>PROPERTY MANAGEMENT PLATFORM</small></div></div><div class="navlabel">Management workspace</div><nav class="nav" id="nav"></nav><div class="sidefoot" id="sideFoot">RentFlow · v13 workspace<br>Demo environment</div></aside>
 <main class="main">
@@ -200,6 +200,7 @@ body[data-theme="light"] .profile-info span{color:#738496}
 <section class="content" id="content"></section>
 </main></div>
 <div class="modalback" id="modalback" onclick="if(event.target===this)closeModal()"><div class="modal"><div class="modalhead"><h3 id="modalTitle">Create record</h3><button class="x" onclick="closeModal()">✕</button></div><div id="modalBody"></div></div></div><div class="toast" id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const navs={
 super:[['Overview','▦'],['Agencies & Agents','♙'],['Landlords','⌂'],['Properties & Plots','▤'],['Units & Houses','▦'],['Tenants & Access','♧'],['Charge Settings','◉'],['Payments','▧'],['Water Meter Billing','♨'],['Lease Management','▤'],['Maintenance','⚒'],['Financial Management','↗'],['Commission Management','％'],['Invoices & Receipts','▧'],['Branch Management','⌂'],['Support Centre','?'],['Communication Centre','✉'],['Reports','▥'],['Security & Audit','☷'],['Vacancy Listings','⌂'],['Tenant Applications','♧'],['Announcements','✉'],['Move-in / Move-out','⇄'],['Arrears & Reminders','◷'],['Deposit Management','▣'],['Staff & Permissions','♙'],['Vendors & Technicians','⚒'],['Document Centre','▤'],['Subscriptions','◇'],['Platform Settings','⚙'],['My Profile','◎']],
@@ -299,11 +300,48 @@ function closeProfileMenu(){
  if(menu){menu.classList.remove('open');button.setAttribute('aria-expanded','false')}
 }
 function openMyProfile(){closeProfileMenu();go('My Profile')}
-const demoAccounts={super:{email:'admin@rentflow.demo',password:'Admin@123',name:'Super Admin'},agent:{email:'agent@rentflow.demo',password:'Agent@123',name:'Agent / Agency Admin'},landlord:{email:'landlord@rentflow.demo',password:'Landlord@123',name:'Landlord'},tenant:{email:'tenant@rentflow.demo',password:'Tenant@123',name:'Tenant'}};
-function updateLoginRole(){const r=$('demoRole').value,a=demoAccounts[r];$('demoEmail').value=a.email;$('demoPassword').value='';$('loginHeading').textContent=a.name+' sign in';$('loginDescription').textContent='Access the '+a.name+' demo workspace.';$('demoCredentials').innerHTML='<b>Demo credentials</b><br>'+a.email+'<br>'+a.password;$('loginError').textContent=''}
+const RENTFLOW_URL='https://prjwtxbmewskkpcfiklo.supabase.co';
+const RENTFLOW_KEY='sb_publishable_X6WlYdJxuS1nWwy8avgn2w_RpIppGQ4';
+const rfClient=window.supabase.createClient(RENTFLOW_URL,RENTFLOW_KEY,{db:{schema:'rentflow'},auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+window.rentflowSupabase=rfClient;
+let signedInProfile=null;
+function updateLoginRole(){const r=$('demoRole').value;const n=r==='agent'?'Agent Admin':'Tenant';$('loginHeading').textContent=n+' sign in';$('loginDescription').textContent='Sign in with your registered RentFlow account.';$('demoEmail').value='';$('demoPassword').value='';$('demoCredentials').textContent='Use the email and password issued by your RentFlow administrator.';$('loginError').textContent=''}
 function switchRole(r){if(!navs[r])return;role=r;page=navs[r][0][0];render()}
-function agentDemoLogout(){closeProfileMenu();$('rentflowApp').style.display='none';$('agentLogin').style.display='grid';$('demoPassword').value='';$('loginError').textContent='';$('demoRole').value=role;updateLoginRole()}
-function agentDemoLogin(e){e.preventDefault();const selected=$('demoRole').value,a=demoAccounts[selected],email=$('demoEmail').value.trim().toLowerCase(),password=$('demoPassword').value;if(!a||email!==a.email||password!==a.password){$('loginError').textContent='Incorrect demo email or password for the selected workspace.';return false}role=selected;page=navs[role][0][0];$('agentLogin').style.display='none';$('rentflowApp').style.display='flex';render();return false}
+async function agentDemoLogout(){closeProfileMenu();await rfClient.auth.signOut();signedInProfile=null;$('rentflowApp').style.display='none';$('agentLogin').style.display='grid';$('demoPassword').value='';$('loginError').textContent='';}
+async function loadRentFlowWorkspace(profile){
+ const [p,u,t,i,m]=await Promise.all([
+  rfClient.from('properties').select('*').order('created_at',{ascending:false}),
+  rfClient.from('units').select('*').order('created_at',{ascending:false}),
+  rfClient.from('tenants').select('*').order('created_at',{ascending:false}),
+  rfClient.from('invoices').select('*').order('created_at',{ascending:false}),
+  rfClient.from('maintenance_requests').select('*').order('created_at',{ascending:false})
+ ]);
+ const errors=[p,u,t,i,m].filter(x=>x.error);
+ if(errors.length)throw new Error(errors[0].error.message);
+ properties=p.data.map(x=>({id:x.id,name:x.name,plot:'',location:x.address||'',landlord:'',manager:'',units:0,occupied:0,rent:0,water:0,garbage:0}));
+ units=u.data.map(x=>({id:x.id,property:x.property_id,house:x.unit_number,floor:'',tenant:'Vacant',rent:Number(x.monthly_rent||0)}));
+ tenants=t.data.map(x=>({id:x.id,name:x.full_name,email:x.email||'',phone:x.phone||'',property:properties.find(p=>p.id===units.find(u=>u.id===x.unit_id)?.property)?.id||'',unit:x.unit_id||''}));
+ invoices=i.data.map(x=>({number:x.invoice_number,tenant:tenants.find(t=>t.id===x.tenant_id)?.name||'Tenant',property:tenants.find(t=>t.id===x.tenant_id)?.property,house:units.find(u=>u.id===tenants.find(t=>t.id===x.tenant_id)?.unit)?.house||'',period:x.period,rent:Number(x.amount_due||0),water:0,garbage:0,paid:Number(x.amount_paid||0),status:x.status,due:x.due_date,receipt:null}));
+ maintenanceRequests=m.data;
+ if(profile.role==='tenant'){
+  const mine=t.data.find(x=>x.profile_id===profile.id);
+  if(mine){tenants=tenants.filter(x=>x.id===mine.id);invoices=invoices.filter(x=>x.tenant===mine.full_name);}
+ }
+}
+async function agentDemoLogin(e){
+ e.preventDefault();const selected=$('demoRole').value,email=$('demoEmail').value.trim(),password=$('demoPassword').value;
+ $('loginError').textContent='Signing in securely…';
+ const {data,error}=await rfClient.auth.signInWithPassword({email,password});
+ if(error){$('loginError').textContent=error.message;return false;}
+ const {data:profileData,error:profileError}=await rfClient.from('profiles').select('*').eq('id',data.user.id).single();
+ if(profileError||!profileData){await rfClient.auth.signOut();$('loginError').textContent='Your RentFlow profile is not ready. Contact your administrator.';return false;}
+ const expected=selected==='agent'?'agent_admin':'tenant';
+ if(profileData.role!==expected){await rfClient.auth.signOut();$('loginError').textContent='This account is not authorised for the selected workspace.';return false;}
+ if(expected==='agent_admin'&&!profileData.agency_id){await rfClient.auth.signOut();$('loginError').textContent='Your agency workspace has not been configured. Contact support.';return false;}
+ signedInProfile=profileData;role=selected;page=navs[role][0][0];
+ try{await loadRentFlowWorkspace(profileData);}catch(err){await rfClient.auth.signOut();$('loginError').textContent='Could not load your shared workspace: '+err.message;return false;}
+ $('agentLogin').style.display='none';$('rentflowApp').style.display='flex';render();return false;
+}
 function dash(){
 const money=v=>cash(v||0);
 const pct=(a,b)=>b?Math.round(a/b*100):0;
