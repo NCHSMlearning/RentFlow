@@ -183,9 +183,9 @@ body[data-theme="light"] .profile-info span{color:#738496}
 <div class="login-mark">⌂</div><div class="login-brand">ESTORA</div><div class="login-kicker">PROPERTY MANAGEMENT PLATFORM</div>
 <h1 id="loginHeading">Sign in to ESTORA</h1><p id="loginDescription">Choose a workspace and access the matching demo portal.</p>
 <label for="demoRole">Workspace</label><select id="demoRole" onchange="updateLoginRole()"><option value="agent">Agent Admin</option><option value="tenant">Tenant</option></select>
-<label for="demoEmail">Email address</label><input id="demoEmail" type="email" value="agent@rentflow.demo" autocomplete="username" required>
+<label for="demoEmail">Email address</label><input id="demoEmail" type="email" autocomplete="username" required>
 <label for="demoPassword">Password</label><input id="demoPassword" type="password" placeholder="Enter demo password" autocomplete="current-password" required>
-<div id="loginError" class="login-error"></div><button class="login-submit" type="submit">Sign in to ESTORA</button>
+<div id="loginError" class="login-error"></div><button class="login-submit" id="loginSubmit" type="submit">Sign in to ESTORA</button>
 <div class="demo-credentials" id="demoCredentials">Use the email and password issued by your ESTORA administrator. Your account is verified securely by Supabase.</div>
 </form></section><div class="app" id="rentflowApp" style="display:none">
 <aside class="side" id="side"><div class="brand"><div class="logo" aria-label="ESTORA logo"><svg viewBox="0 0 48 48" role="img" aria-label="ESTORA mark"><path d="M8 39V19L24 7l16 12v20M16 39V23l8-6 8 6v16M24 39V27" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 20L24 4l20 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div><div><b>ESTORA</b><small>PROPERTY MANAGEMENT PLATFORM</small></div></div><div class="navlabel">Management workspace</div><nav class="nav" id="nav"></nav><div class="sidefoot" id="sideFoot">ESTORA · v13 workspace<br>Demo environment</div></aside>
@@ -305,7 +305,7 @@ const RENTFLOW_KEY='sb_publishable_SYaAb9QrstSxkTBFUl4FJA_0REhxzLj';
 const rfClient=window.supabase.createClient(RENTFLOW_URL,RENTFLOW_KEY,{db:{schema:'rentflow'},auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:'estora-agent-auth-v1'}});
 window.rentflowSupabase=rfClient;
 let signedInProfile=null;
-function updateLoginRole(){const r=$('demoRole').value;const n=r==='agent'?'Agent Admin':'Tenant';$('loginHeading').textContent=n+' sign in';$('loginDescription').textContent='Sign in with your registered ESTORA account.';$('demoEmail').value='';$('demoPassword').value='';$('demoCredentials').textContent='Use the email and password issued by your ESTORA administrator.';$('loginError').textContent=''}
+function updateLoginRole(){const r=$('demoRole').value;const n=r==='agent'?'Agent Admin':'Tenant';$('loginHeading').textContent=n+' sign in';$('loginDescription').textContent='Sign in with your registered ESTORA account.';$('demoCredentials').textContent='Use the email and password issued for this workspace. Changing workspace will not clear your entries.';$('loginError').textContent=''}
 function switchRole(r){if(!navs[r])return;role=r;page=navs[r][0][0];render()}
 async function agentDemoLogout(){closeProfileMenu();await rfClient.auth.signOut();signedInProfile=null;$('rentflowApp').style.display='none';$('agentLogin').style.display='grid';$('demoPassword').value='';$('loginError').textContent='';}
 async function loadESTORAWorkspace(profile){
@@ -344,18 +344,30 @@ async function loadESTORAWorkspace(profile){
  }
 }
 async function agentDemoLogin(e){
- e.preventDefault();const selected=$('demoRole').value,email=$('demoEmail').value.trim(),password=$('demoPassword').value;
- $('loginError').textContent='Signing in securely…';
- const {data,error}=await rfClient.auth.signInWithPassword({email,password});
- if(error){$('loginError').textContent=error.message;return false;}
- const {data:profileData,error:profileError}=await rfClient.schema('public').from('estora_login_profiles').select('id,email,full_name,role,agency_id').eq('id',data.user.id).maybeSingle();
- if(profileError||!profileData){$('loginError').textContent='Profile lookup failed: '+(profileError?.message||'No profile row found for this Auth user.');return false;}
- const expected=selected==='agent'?'agent_admin':'tenant';
- if(profileData.role!==expected){$('loginError').textContent='This account is not authorised for the selected workspace.';return false;}
- if(expected==='agent_admin'&&!profileData.agency_id){$('loginError').textContent='Your agency workspace has not been configured. Contact support.';return false;}
- signedInProfile=profileData;role=selected;page=navs[role][0][0];
- try{await loadESTORAWorkspace(profileData);}catch(err){$('loginError').textContent='Could not load your shared workspace: '+err.message;return false;}
- $('agentLogin').style.display='none';$('rentflowApp').style.display='flex';render();return false;
+ e.preventDefault();
+ const button=$('loginSubmit'),selected=$('demoRole').value,email=$('demoEmail').value.trim(),password=$('demoPassword').value;
+ if(!email||!password){$('loginError').textContent='Enter your email address and password.';return false;}
+ if(button.disabled)return false;
+ button.disabled=true;button.textContent='Signing in…';
+ $('loginError').textContent='Checking your account…';
+ try{
+  const {data,error}=await rfClient.auth.signInWithPassword({email,password});
+  if(error){$('loginError').textContent=error.message||'Sign-in failed. Check your email and password.';return false;}
+  const {data:profileData,error:profileError}=await rfClient.schema('public').from('estora_login_profiles').select('id,email,full_name,role,agency_id').eq('id',data.user.id).maybeSingle();
+  if(profileError||!profileData){$('loginError').textContent='Your credentials were accepted, but your ESTORA profile could not be loaded: '+(profileError?.message||'No profile is linked to this account.');return false;}
+  const expected=selected==='agent'?'agent_admin':'tenant';
+  if(profileData.role!==expected){$('loginError').textContent='This account belongs to the '+(profileData.role==='agent_admin'?'Agent Admin':'Tenant')+' workspace. Select the matching workspace and try again.';return false;}
+  if(expected==='agent_admin'&&!profileData.agency_id){$('loginError').textContent='Your agency workspace has not been configured. Contact support.';return false;}
+  signedInProfile=profileData;role=selected;page=navs[role][0][0];
+  try{await loadESTORAWorkspace(profileData);}catch(err){$('loginError').textContent='Your credentials are valid, but the workspace could not load: '+(err.message||'Please try again.');return false;}
+  $('agentLogin').style.display='none';$('rentflowApp').style.display='flex';render();return false;
+ }catch(err){
+  console.error('ESTORA sign-in error:',err);
+  $('loginError').textContent='Unable to complete sign-in: '+(err?.message||'Check your connection and try again.');
+  return false;
+ }finally{
+  button.disabled=false;button.textContent='Sign in to ESTORA';
+ }
 }
 async function restoreESTORASession(){
  const {data:{session},error}=await rfClient.auth.getSession();
