@@ -315,7 +315,28 @@ const rfClient=window.supabase.createClient(RENTFLOW_URL,RENTFLOW_KEY,{db:{schem
 window.rentflowSupabase=rfClient;
 let signedInProfile=null;
 function updateLoginRole(){const r=$('demoRole').value;const n=r==='agent'?'Agent Admin':'Tenant';$('loginHeading').textContent=n+' sign in';$('loginDescription').textContent='Enter your email address first, then continue to your password.';$('demoCredentials').textContent='Use the email and password issued for this workspace. Changing workspace will not clear your email address.';$('loginError').textContent='';if($('passwordError'))$('passwordError').textContent='';if($('passwordStep'))backToEmail(false);if($('emailStep'))$('emailStep').hidden=false}
-function continueToPassword(){try{const input=$('demoEmail'),email=input.value.trim();$('loginError').textContent='';if(!email){$('loginError').textContent='Please enter your email address first.';input.focus();return false}if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)){ $('loginError').textContent='Please enter a valid email address.';input.focus();return false}input.value=email;$('loginAccount').textContent=email;$('emailStep').hidden=true;$('passwordStep').style.display='block';$('demoPassword').disabled=false;$('demoPassword').required=true;$('loginHeading').textContent='Enter your password';$('loginDescription').textContent='Signing in to the '+($('demoRole').value==='agent'?'Agent Admin':'Tenant')+' workspace.';$('demoPassword').focus();return true}catch(err){console.error('ESTORA email step error',err);$('loginError').textContent='Unable to continue. Please refresh and try again.';return false}}
+function continueToPassword(){
+ try{
+  const input=$('demoEmail'),email=input.value.trim();
+  $('loginError').textContent='';
+  if(!email){$('loginError').textContent='Please enter your email address first.';input.focus();return false;}
+  input.value=email;
+  if(!input.checkValidity()){$('loginError').textContent='Please enter a valid email address.';input.focus();return false;}
+  $('loginAccount').textContent=email;
+  $('emailStep').hidden=true;
+  $('passwordStep').style.display='block';
+  $('demoPassword').disabled=false;
+  $('demoPassword').required=true;
+  $('loginHeading').textContent='Enter your password';
+  $('loginDescription').textContent='Signing in to the '+($('demoRole').value==='agent'?'Agent Admin':'Tenant')+' workspace.';
+  $('demoPassword').focus();
+  return true;
+ }catch(err){
+  console.error('ESTORA email step error',err);
+  $('loginError').textContent='Unable to continue. Please refresh and try again.';
+  return false;
+ }
+}
 function backToEmail(clearPassword=true){if(!$('passwordStep'))return;$('passwordStep').style.display='none';$('emailStep').style.display='block';$('demoPassword').required=false;$('demoPassword').disabled=true;if(clearPassword)$('demoPassword').value='';$('loginHeading').textContent=($('demoRole').value==='agent'?'Agent Admin':'Tenant')+' sign in';$('loginDescription').textContent='Enter your email address first, then continue to your password.'}
 function switchRole(r){if(!navs[r])return;role=r;page=navs[r][0][0];render()}
 async function agentDemoLogout(){closeProfileMenu();await rfClient.auth.signOut();signedInProfile=null;$('rentflowApp').style.display='none';$('agentLogin').style.display='grid';$('demoPassword').value='';$('loginError').textContent='';}
