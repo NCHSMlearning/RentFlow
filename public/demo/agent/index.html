@@ -179,20 +179,20 @@ body[data-theme="light"] .profile-info span{color:#738496}
 </head>
 <body>
 <section id="agentLogin" class="login-screen">
-<form class="login-card" onsubmit="return agentDemoLogin(event)">
+<form class="login-card" novalidate onsubmit="return false">
 <div class="login-mark">⌂</div><div class="login-brand">ESTORA</div><div class="login-kicker">PROPERTY MANAGEMENT PLATFORM</div>
 <h1 id="loginHeading">Sign in to ESTORA</h1><p id="loginDescription">Choose a workspace and access the matching demo portal.</p>
 <label for="demoRole">Workspace</label><select id="demoRole" onchange="updateLoginRole()"><option value="agent">Agent Admin</option><option value="tenant">Tenant</option></select>
 <div id="emailStep">
 <label for="demoEmail">Email address</label><input id="demoEmail" type="email" autocomplete="username" inputmode="email" placeholder="Enter your email address" required>
 <div id="loginError" class="login-error"></div>
-<button class="login-submit" id="emailContinue" type="submit">Continue</button>
+<button class="login-submit" id="emailContinue" type="button" onclick="continueToPassword();return false">Continue</button>
 </div>
 <div id="passwordStep" style="display:none">
 <div class="login-account" id="loginAccount"></div>
 <label for="demoPassword">Password</label><input id="demoPassword" type="password" placeholder="Enter your password" autocomplete="current-password" disabled>
 <div id="passwordError" class="login-error"></div>
-<button class="login-submit" id="loginSubmit" type="submit">Sign in to ESTORA</button>
+<button class="login-submit" id="loginSubmit" type="button" onclick="agentDemoLogin(event);return false">Sign in to ESTORA</button>
 <button class="login-back" type="button" onclick="backToEmail()">← Change email address</button>
 </div>
 <div class="demo-credentials" id="demoCredentials">Use the email and password issued by your ESTORA administrator. Your account is verified securely by Supabase.</div>
