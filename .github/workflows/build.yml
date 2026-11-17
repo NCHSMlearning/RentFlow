@@ -32,9 +32,13 @@ jobs:
         run: |
           mkdir -p dist/demo
           cp -R public/demo/. dist/demo/
+          test -s dist/demo.html
           test -s dist/demo/index.html
           test -s dist/demo/agent/index.html
-          echo "Verified demo files in dist/demo"
+          test -s dist/demo/tenant/index.html
+          test -s dist/demo/landlord/index.html
+          test -s dist/demo/superadmin/index.html
+          echo "Verified flat demo landing page and all role portal files in dist"
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload production build
